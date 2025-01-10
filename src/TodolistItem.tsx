@@ -1,8 +1,6 @@
 import {FilterValuesType, TaskType} from "./App.tsx";
 import {Button} from "./Button.tsx";
-import {useRef,
-    useState
-} from "react";
+import {useRef, useState} from "react";
 
 type TodoListItemPropsType = {
     title: string,
@@ -13,7 +11,6 @@ type TodoListItemPropsType = {
     addTask: (title: string) => void,
     changeToDoListFilter: (filter: FilterValuesType) => void
 }
-const [taskTitle, setTaskTitle] = useState<string>("")
 
 export const TodolistItem = ({
                                  title,
@@ -22,9 +19,10 @@ export const TodolistItem = ({
                                  tasks,
                                  deleteTask,
                                  changeToDoListFilter,
-                                 // addTask
+                                 addTask
                              }: TodoListItemPropsType) => {
 
+    const [taskTitle, setTaskTitle] = useState<string>('')
     const createOnClickHandler = (filter: FilterValuesType) => () => (changeToDoListFilter(filter))
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -37,21 +35,17 @@ export const TodolistItem = ({
             <div>
                 <input ref={inputRef}
                        value={taskTitle}
-                       onChange={(e) =>{
-                           debugger;
-                    setTaskTitle(e.currentTarget.value)}
-                    }
+                       onChange={(e) => {
+                           setTaskTitle(e.currentTarget.value)
+                       }
+                       }
                 />
                 <Button title={'+'}
-                //     //     onClick={() => {
-                //     // if (inputRef.current) {
-                //     //     // debugger;
-                //     //     // console.log(inputRef.current)
-                //     //     addTask(taskTitle);
-                //     //     inputRef.current.value='';
-                //     // }
-                // {/*}*/}
-                // {/*    }*/}
+                        onClickHandler={() => {
+                            debugger;
+                            addTask(taskTitle);
+                            setTaskTitle('')
+                        }}
                 />
             </div>
             {
@@ -60,14 +54,14 @@ export const TodolistItem = ({
                 ) : (
                     <ul>
                         {tasks.map((item: TaskType) => {
-                            const deleteTaskHandler=()=>{
+                            const deleteTaskHandler = () => {
                                 deleteTask(item.id)
                             }
                             return (
                                 <li key={item.id}>
                                     <input type="checkbox" checked={item.isDone}/>
                                     <span>{item.title}</span>
-                                    <Button title={'x'} onClick={deleteTaskHandler}/>
+                                    <Button title={'x'} onClickHandler={deleteTaskHandler}/>
                                 </li>
                             )
                         })}

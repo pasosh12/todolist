@@ -37,8 +37,8 @@ export function App() {
     }
     const addTask = (title: string) => {
 
-        const newTask = {id: v1(), title: title, isDone: false}
-        const newTasks= [newTask,...tasks]
+        const newTask = {id: v1(), title, isDone: false}
+        const newTasks = [newTask, ...tasks]
         setTasks(newTasks)
     }
     const deleteTask = (id: string) => {
