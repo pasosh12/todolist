@@ -35,16 +35,31 @@ export function App() {
     const changeToDoListFilter = (filter: FilterValuesType) => {
         setFilter(filter)
     }
-    const addTask = (title: string) => {
+    const onAddTask = (title: string) => {
 
         const newTask = {id: v1(), title, isDone: false}
         const newTasks = [newTask, ...tasks]
         setTasks(newTasks)
     }
-    const deleteTask = (id: string) => {
+    const onDeleteTask = (id: string) => {
         const nextState: TaskType[] = tasks.filter(t => t.id !== id)
         setTasks(nextState);
     }
+    const changeTaskStatus = (taskId: string, newStatusValue: boolean) => {
+        const newState = tasks.map(
+            task => task.id == taskId ?
+                {...task, isDone: newStatusValue} : task
+        )
+
+        setTasks(newState)
+    }
+    /// через find
+    //     const taskToUpdate = tasks.find(task => task.id === taskId)
+    //     if (taskToUpdate) {
+    //         taskToUpdate.isDone = newStatusValue;
+    //         setTasks([...tasks])
+    //     }
+    // }
 
     const filteredTasks: TaskType[] = getFilteredTasks(tasks, filter)
 
@@ -55,10 +70,11 @@ export function App() {
                 title={'What to learn'}
                 tasks={filteredTasks}
                 subTitle={''}
-                deleteTask={deleteTask}
+                deleteTask={onDeleteTask}
                 description={''}
                 changeToDoListFilter={changeToDoListFilter}
-                addTask={addTask}
+                addTask={onAddTask}
+                changeTaskStatus={changeTaskStatus}
 
             />
 
