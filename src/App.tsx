@@ -75,7 +75,7 @@ export function App() {
                 changeToDoListFilter={changeToDoListFilter}
                 addTask={onAddTask}
                 changeTaskStatus={changeTaskStatus}
-
+                filter={filter}
             />
 
         </div>

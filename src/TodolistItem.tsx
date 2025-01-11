@@ -1,6 +1,6 @@
 import {FilterValuesType, TaskType} from "./App.tsx";
 import {Button} from "./Button.tsx";
-import {ChangeEvent,KeyboardEvent, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type TodoListItemPropsType = {
     title: string,
@@ -10,7 +10,8 @@ type TodoListItemPropsType = {
     deleteTask: (id: string) => void,
     addTask: (title: string) => void,
     changeToDoListFilter: (filter: FilterValuesType) => void,
-    changeTaskStatus :(itemId:string,newStatusValue:boolean)=>void
+    changeTaskStatus: (itemId: string, newStatusValue: boolean) => void,
+    filter: string
 }
 
 export const TodolistItem = ({
@@ -21,30 +22,38 @@ export const TodolistItem = ({
                                  deleteTask,
                                  changeToDoListFilter,
                                  addTask,
-                                 changeTaskStatus
+                                 changeTaskStatus,
+                                 filter
                              }: TodoListItemPropsType) => {
 
     const [taskTitle, setTaskTitle] = useState<string>('')
-
+    const [error, setError] = useState<string | null>(null)
     const createOnClickHandler = (filter: FilterValuesType) => () =>
         (changeToDoListFilter(filter))
 
     const createTaskHandler = () => {
-        addTask(taskTitle);
-        setTaskTitle('')
+        const trimmedTitle = taskTitle.trim()
+        if (trimmedTitle !== '') {
+            addTask(trimmedTitle);
+            setTaskTitle('')
+        } else {
+            setError('Title is required')
+        }
     }
     const changeTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
         setTaskTitle(e.currentTarget.value)
+        setError(null)
     }
-    const createTaskOnEnterHandler = (e:KeyboardEvent<HTMLInputElement>) => {
+    const createTaskOnEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             createTaskHandler()
         }
     }
-const checkboxHandler= (e: React.ChangeEvent<HTMLInputElement>, itemId: string)=>{
-    const newStatusValue= e.currentTarget.checked
-    changeTaskStatus(itemId,newStatusValue)
-}
+    const checkboxHandler = (e: ChangeEvent<HTMLInputElement>, itemId: string) => {
+        const newStatusValue = e.currentTarget.checked
+        changeTaskStatus(itemId, newStatusValue)
+    }
 
     return (
         <div>
@@ -53,6 +62,7 @@ const checkboxHandler= (e: React.ChangeEvent<HTMLInputElement>, itemId: string)=
             <p>{description}</p>
             <div>
                 <input
+                    className={error ? 'error' : ''}
                     value={taskTitle}
                     onChange={changeTaskTitleHandler}
                     onKeyDown={createTaskOnEnterHandler}
@@ -60,6 +70,7 @@ const checkboxHandler= (e: React.ChangeEvent<HTMLInputElement>, itemId: string)=
                 <Button title={'+'}
                         onClickHandler={createTaskHandler}
                 />
+                {error && <div className={'error-message'}>{error}</div>}
             </div>
             {
                 tasks.length === 0 ? (
@@ -70,10 +81,10 @@ const checkboxHandler= (e: React.ChangeEvent<HTMLInputElement>, itemId: string)=
                             const deleteTaskHandler = () => deleteTask(item.id)
 
                             return (
-                                <li key={item.id}>
+                                <li key={item.id} className={item.isDone ? 'is-done' : ''}>
                                     <input type="checkbox" checked={item.isDone}
-                                           onChange={(event:ChangeEvent<HTMLInputElement>)=>
-                                               checkboxHandler(event,item.id)}/>
+                                           onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                               checkboxHandler(event, item.id)}/>
                                     <span>{item.title}</span>
                                     <Button title={'x'} onClickHandler={deleteTaskHandler}/>
                                 </li>
@@ -84,9 +95,12 @@ const checkboxHandler= (e: React.ChangeEvent<HTMLInputElement>, itemId: string)=
             }
 
             <div>
-                <Button title={'All'} onClickHandler={createOnClickHandler('all')}/>
-                <Button title={'Active'} onClickHandler={createOnClickHandler('active')}/>
-                <Button title={'Completed'} onClickHandler={createOnClickHandler('completed')}/>
+                <Button title={'All'} className={filter === 'all' ? 'active-filter' : ''}
+                        onClickHandler={createOnClickHandler('all')}/>
+                <Button title={'Active'} className={filter === 'active' ? 'active-filter' : ''}
+                        onClickHandler={createOnClickHandler('active')}/>
+                <Button title={'Completed'} className={filter === 'completed' ? 'active-filter' : ''}
+                        onClickHandler={createOnClickHandler('completed')}/>
 
             </div>
         </div>
