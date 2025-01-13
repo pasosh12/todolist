@@ -38,7 +38,7 @@ export function App() {
     const onAddTask = (title: string) => {
 
         const newTask = {id: v1(), title, isDone: false}
-        const newTasks = [newTask, ...tasks]
+        const newTasks :TaskType[] = [newTask, ...tasks]
         setTasks(newTasks)
     }
     const onDeleteTask = (id: string) => {
