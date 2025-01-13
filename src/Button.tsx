@@ -1,11 +1,14 @@
 type Props={
     title: string,
     onClickHandler?: () => void,
+    disabled?: boolean,
     className?: string
 }
-export const Button = ({title, onClickHandler,className}:Props) => {
+export const Button = ({title, onClickHandler,disabled,className }:Props) => {
     return (
-        <button className={className} onClick={onClickHandler}>{title}</button>
+        <button className={className}
+                disabled={disabled}
+                onClick={onClickHandler}>{title}</button>
 
     );
 };

@@ -7,8 +7,8 @@ type TodoListItemPropsType = {
     subTitle: string,
     description: string,
     tasks: TaskType[],
-    deleteTask: (id: string) => void,
     addTask: (title: string) => void,
+    deleteTask: (id: string) => void,
     changeToDoListFilter: (filter: FilterValuesType) => void,
     changeTaskStatus: (itemId: string, newStatusValue: boolean) => void,
     filter: string
@@ -19,9 +19,9 @@ export const TodolistItem = ({
                                  subTitle,
                                  description,
                                  tasks,
+                                 addTask,
                                  deleteTask,
                                  changeToDoListFilter,
-                                 addTask,
                                  changeTaskStatus,
                                  filter
                              }: TodoListItemPropsType) => {
@@ -54,7 +54,7 @@ export const TodolistItem = ({
         const newStatusValue = e.currentTarget.checked
         changeTaskStatus(itemId, newStatusValue)
     }
-
+    const maxTitleLengthError:boolean = taskTitle.length > 15
     return (
         <div>
             <h3>{title}</h3>
@@ -69,7 +69,9 @@ export const TodolistItem = ({
                 />
                 <Button title={'+'}
                         onClickHandler={createTaskHandler}
+                        disabled={!taskTitle.length || maxTitleLengthError }
                 />
+                    {maxTitleLengthError && <div style={{color:'red'}}>Title is more 15 characters</div>}
                 {error && <div className={'error-message'}>{error}</div>}
             </div>
             {
