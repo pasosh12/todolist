@@ -1,6 +1,9 @@
 .app {
   padding: 30px;
   display: flex;
+  ul{
+    list-style: none;
+  }
 }
 
 .app > div {
