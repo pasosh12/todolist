@@ -4,26 +4,22 @@ import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type TodoListItemPropsType = {
     title: string,
-    subTitle: string,
-    description: string,
+    filter: string,
     tasks: TaskType[],
     addTask: (title: string) => void,
     deleteTask: (id: string) => void,
     changeToDoListFilter: (filter: FilterValuesType) => void,
-    changeTaskStatus: (itemId: string, newStatusValue: boolean) => void,
-    filter: string
+    changeTaskStatus: (itemId: string,newStatus:boolean) => void,
 }
 
 export const TodolistItem = ({
                                  title,
-                                 subTitle,
-                                 description,
+                                 filter,
                                  tasks,
                                  addTask,
                                  deleteTask,
                                  changeToDoListFilter,
                                  changeTaskStatus,
-                                 filter
                              }: TodoListItemPropsType) => {
 
     const [taskTitle, setTaskTitle] = useState<string>('')
@@ -35,31 +31,27 @@ export const TodolistItem = ({
         const trimmedTitle = taskTitle.trim()
         if (trimmedTitle !== '') {
             addTask(trimmedTitle);
-            setTaskTitle('')
         } else {
             setError('Title is required')
         }
+            setTaskTitle('')
     }
     const changeTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-
+        error && setError(null)
         setTaskTitle(e.currentTarget.value)
-        setError(null)
     }
     const createTaskOnEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             createTaskHandler()
         }
     }
-    const checkboxHandler = (e: ChangeEvent<HTMLInputElement>, itemId: string) => {
-        const newStatusValue = e.currentTarget.checked
-        changeTaskStatus(itemId, newStatusValue)
-    }
+    // const checkboxHandler = (itemId: string) => {
+    //     changeTaskStatus(itemId)
+    // }
     const maxTitleLengthError:boolean = taskTitle.length > 15
     return (
         <div>
             <h3>{title}</h3>
-            <h4>{subTitle}</h4>
-            <p>{description}</p>
             <div>
                 <input
                     className={error ? 'error' : ''}
@@ -85,8 +77,8 @@ export const TodolistItem = ({
                             return (
                                 <li key={item.id} className={item.isDone ? 'is-done' : ''}>
                                     <input type="checkbox" checked={item.isDone}
-                                           onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                               checkboxHandler(event, item.id)}/>
+                                           onChange={(e) =>
+                                               changeTaskStatus(item.id, e.currentTarget.checked)}/>
                                     <span>{item.title}</span>
                                     <Button title={'x'} onClickHandler={deleteTaskHandler}/>
                                 </li>
