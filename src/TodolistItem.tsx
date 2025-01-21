@@ -60,7 +60,7 @@ export const TodolistItem = ({
                     onKeyDown={createTaskOnEnterHandler}
                 />
                 <Button title={'+'}
-                        onClickHandler={createTaskHandler}
+                        onClick={createTaskHandler}
                         disabled={!taskTitle.length || maxTitleLengthError }
                 />
                     {maxTitleLengthError && <div style={{color:'red'}}>Title is more 15 characters</div>}
@@ -80,7 +80,7 @@ export const TodolistItem = ({
                                            onChange={(e) =>
                                                changeTaskStatus(item.id, e.currentTarget.checked)}/>
                                     <span>{item.title}</span>
-                                    <Button title={'x'} onClickHandler={deleteTaskHandler}/>
+                                    <Button title={'x'} onClick={deleteTaskHandler}/>
                                 </li>
                             )
                         })}
@@ -90,11 +90,11 @@ export const TodolistItem = ({
 
             <div>
                 <Button title={'All'} className={filter === 'all' ? 'active-filter' : ''}
-                        onClickHandler={createOnClickHandler('all')}/>
+                        onClick={createOnClickHandler('all')}/>
                 <Button title={'Active'} className={filter === 'active' ? 'active-filter' : ''}
-                        onClickHandler={createOnClickHandler('active')}/>
+                        onClick={createOnClickHandler('active')}/>
                 <Button title={'Completed'} className={filter === 'completed' ? 'active-filter' : ''}
-                        onClickHandler={createOnClickHandler('completed')}/>
+                        onClick={createOnClickHandler('completed')}/>
 
             </div>
         </div>
