@@ -1,14 +1,18 @@
-type Props={
-    title: string,
-    onClickHandler?: () => void,
-    disabled?: boolean,
-    className?: string
-}
-export const Button = ({title, onClickHandler,disabled,className }:Props) => {
+import {ButtonHTMLAttributes} from "react";
+// type Props={
+//     title: string,
+//     onClickHandler?: () => void,
+//     disabled?: boolean,
+//     className?: string
+// }
+
+type Props=ButtonHTMLAttributes<HTMLButtonElement>
+
+export const Button = ({title, onClick,disabled,className }:Props) => {
     return (
         <button className={className}
                 disabled={disabled}
-                onClick={onClickHandler}>{title}</button>
+                onClick={onClick}>{title}</button>
 
     );
 };
