@@ -1,5 +1,6 @@
 import {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
+import {Button} from "./Button.tsx";
 
 export type TaskType = {
     id: string
@@ -75,18 +76,18 @@ export function TodolistItem(props: PropsType) {
                                onChange={onChangeHandler}
                                checked={t.isDone}/>
                         <span>{t.title}</span>
-                        <button onClick={onClickHandler}>x</button>
+                        <Button title='x' onClick={onClickHandler}/>
                     </li>
                 })
             }
         </ul>
         <div>
-            <button className={props.filter === 'all' ? "active-filter" : ""}
-                    onClick={onAllClickHandler}>All</button>
-            <button className={props.filter === 'active' ? "active-filter" : ""}
-                    onClick={onActiveClickHandler}>Active</button>
-            <button className={props.filter === 'completed' ? "active-filter" : ""}
-                    onClick={onCompletedClickHandler}>Completed</button>
+            <Button className={`buttonFilter ${props.filter === 'all' ? "active-filter" : ""}`}
+                    onClick={onAllClickHandler} title = 'All'/>
+            <Button className={`buttonFilter ${props.filter === 'active' ? "active-filter" : ""}`}
+                    onClick={onActiveClickHandler} title = 'Active' />
+            <Button className={`buttonFilter ${props.filter === 'completed' ? "active-filter" : ""}`}
+                    onClick={onCompletedClickHandler} title = 'Completed'/>
         </div>
     </div>
 }

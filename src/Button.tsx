@@ -1,10 +1,4 @@
 import {ButtonHTMLAttributes} from "react";
-// type Props={
-//     title: string,
-//     onClickHandler?: () => void,
-//     disabled?: boolean,
-//     className?: string
-// }
 
 type Props=ButtonHTMLAttributes<HTMLButtonElement>
 

@@ -17,9 +17,10 @@ body{
 .error-message{
   color: red;
 }
-.active-filter{
-  background-color: lightgreen;
-}
+
 .is-done{
   opacity: 0.5;
+}
+.buttonFilter + .active-filter {
+    background-color: lightgreen;
 }
