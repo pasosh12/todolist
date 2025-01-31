@@ -1,12 +1,12 @@
-.app {
+body{
+  background-color: #c6bfbf;
+}
+.App {
   padding: 30px;
   display: flex;
-  ul{
-    list-style: none;
-  }
 }
 
-.app > div {
+.App > div {
   margin-right: 50px;
 }
 
