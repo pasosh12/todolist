@@ -21,6 +21,6 @@ body{
 .is-done{
   opacity: 0.5;
 }
-.buttonFilter + .active-filter {
+.active-filter {
     background-color: lightgreen;
 }

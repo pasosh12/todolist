@@ -1,8 +1,8 @@
 import {ButtonHTMLAttributes} from "react";
 
-type Props=ButtonHTMLAttributes<HTMLButtonElement>
+type Props = ButtonHTMLAttributes<HTMLButtonElement>
 
-export const Button = ({title, onClick,disabled,className }:Props) => {
+export const Button = ({title, onClick, disabled, className}: Props) => {
     return (
         <button className={className}
                 disabled={disabled}

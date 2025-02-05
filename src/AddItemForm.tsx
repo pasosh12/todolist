@@ -3,6 +3,7 @@ import {Button} from "./Button.tsx";
 
 type AddItemFormPropsType = {
     onCreateItem: (title: string) => void,
+    placeHolder?: string,
 }
 
 export function AddItemForm(props: AddItemFormPropsType) {
@@ -29,6 +30,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
     return (
         <div>
             <input value={itemTitle}
+                   placeholder={props.placeHolder}
                    onChange={onChangeHandler}
                    onKeyPress={onKeyPressHandler}
                    className={error ? "error" : ""}
