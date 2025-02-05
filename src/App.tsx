@@ -82,7 +82,7 @@ function App() {
     const createTodolist = (title: string) => {
         const newTodolistId = v1()
         const newTodolist: TodolistType = {id: newTodolistId, title, filter: 'all'}
-        const nextState: TodolistType[] = [newTodolist, ...todolists,]
+        const nextState: TodolistType[] = [ newTodolist, ...todolists,]
         setTodolists(nextState)
         const nextTasksState: TasksState = {...tasks, [newTodolistId]: []}
         setTasks(nextTasksState)
@@ -90,11 +90,11 @@ function App() {
 
     //U
     const changeTodolistFilter = (value: FilterValuesType, todolistsId: string) => {
-        const nextState: TodolistType[] = todolists.map(tl => tl.id === todolistsId ? {...tl, filter: value} : tl)
+        const nextState: TodolistType[] = todolists.map(t => t.id === todolistsId ? {...t, filter: value} : t)
         setTodolists(nextState)
     }
     const changeTodolistTitle = (title: string, todolistsId: string) => {
-        const nextState: TodolistType[] = todolists.map(tl => tl.id === todolistsId ? {...tl, title} : tl)
+        const nextState: TodolistType[] = todolists.map(t => t.id === todolistsId ? {...t, title} : t)
         setTodolists(nextState)
     }
 
