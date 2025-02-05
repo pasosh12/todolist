@@ -1,20 +1,21 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
+import {Button} from "./Button.tsx";
 
 type AddItemFormPropsType = {
-    addTask: (todolistsId: string, title: string) => void,
-    todolistsId: string
+    onCreateItem: (title: string) => void,
 }
 
 export function AddItemForm(props: AddItemFormPropsType) {
-    let [title, setTitle] = useState("")
+    let [itemTitle, setItemTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
+        setItemTitle(e.currentTarget.value)
     }
-    const addTask = () => {
-        if (title.trim() !== "") {
-            props.addTask(props.todolistsId, title.trim());
-            setTitle("");
+    const createItemHandler = () => {
+        const trimmedTitle = itemTitle.trim()
+        if (itemTitle.trim() !== "") {
+            props.onCreateItem(trimmedTitle)
+            setItemTitle("");
         } else {
             setError("Title is required");
         }
@@ -22,17 +23,17 @@ export function AddItemForm(props: AddItemFormPropsType) {
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);
         if (e.charCode === 13) {
-            addTask();
+            createItemHandler();
         }
     }
     return (
         <div>
-            <input value={title}
+            <input value={itemTitle}
                    onChange={onChangeHandler}
                    onKeyPress={onKeyPressHandler}
                    className={error ? "error" : ""}
             />
-            <button onClick={addTask}>+</button>
+            <Button title={'+'} onClick={createItemHandler}/>
             {error && <div className="error-message">{error}</div>}
         </div>
     )
