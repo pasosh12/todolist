@@ -38,7 +38,7 @@ export function TodolistItem(props: PropsType) {
                           onChangeTitle={changeTodolistTitleHandler}/>
             <button title={'x'} onClick={deleteTodoListHandler}>X</button>
         </h3>
-        <AddItemForm onCreateItem={createTaskHandler}/>
+        <AddItemForm onCreateItem={createTaskHandler} placeHolder={'Task title'} />
         <ul>
             {
                 props.tasks.map(task => {
