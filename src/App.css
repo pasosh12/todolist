@@ -4,11 +4,12 @@ body{
 .App {
   padding: 30px;
   display: flex;
+  margin: 0 auto;
 }
 
-.App > div {
-  margin-right: 50px;
-}
+/*.App > div {*/
+/*  margin-right: 50px;*/
+/*}*/
 
 .error {
   border: 1px solid red;

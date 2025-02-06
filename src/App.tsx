@@ -3,7 +3,7 @@ import './App.css';
 import {TodolistItem} from './TodolistItem.tsx';
 import {v1} from 'uuid';
 import {AddItemForm} from "./AddItemForm.tsx";
-import Paper from "@mui/material/Paper";
+import { Box, Paper, Grid2 as Grid } from '@mui/material'
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -137,15 +137,27 @@ function App() {
 
     return (
         <div className="App">
-            <div>
-                <Paper style={{padding: "10px"}}>
-                    <h3>Add new To_do_list</h3>
-                    <AddItemForm onCreateItem={createTodolist} placeHolder={'Todo title'}/>
-                </Paper>
-            </div>
-
-            {todolistsItems}
-
+            <Box sx={{flexGrow: 1, padding: '20px'}}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={4}>
+                        <Paper elevation={3} style={{padding: "10px"}}>
+                            <h3>Add new To_do_list</h3>
+                            <AddItemForm onCreateItem={createTodolist} placeHolder={'Todo title'}/>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                        <Grid container spacing={2}>
+                            {todolistsItems.map((item, index) => (
+                                <Grid item xs={12} sm={6} key={index}>
+                                    <Paper elevation={3} style={{padding: "10px", minHeight:'290px'}}>
+                                        {item}
+                                    </Paper>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
         </div>
     );
 }
