@@ -1,4 +1,4 @@
-import {createTaskAC, editTaskStatusAC, editTaskTitleAC, tasksReducer} from "./tasks-reducer.ts";
+import {createTaskAC, deleteTaskAC, editTaskStatusAC, editTaskTitleAC, tasksReducer} from "./tasks-reducer.ts";
 import type {TasksState} from "../App.tsx";
 import {test, expect, beforeEach} from 'vitest'
 import {createTodolistAC, deleteTodolistAC} from "./todolists-reducer.ts";
@@ -79,4 +79,10 @@ test('correct task should update its status', () => {
         throw Error("Not found such a task")
     }
     expect(taskToChange.isDone).toEqual(newStatus)
+})
+test('correct task should be deleted', () => {
+    const todolistTaskToDeleteId='todolistId1'
+    const taskToDeleteId='1'
+    const endState = tasksReducer(startState,deleteTaskAC(todolistTaskToDeleteId, taskToDeleteId))
+    expect(endState[todolistTaskToDeleteId].length).toEqual(startState[todolistTaskToDeleteId].length-1)
 })
