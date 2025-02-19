@@ -4,8 +4,8 @@ import {test, expect, beforeEach} from 'vitest'
 import {
     createTodolistAC,
     deleteTodolistAC,
-    editTodolistFilter,
-    editTodolistTitle,
+    editTodolistFilterAC,
+    editTodolistTitleAC,
     todolistsReducer
 } from "./todolists-reducer.ts";
 
@@ -27,12 +27,6 @@ beforeEach(() => {
 
 test('correct todolist should be created', () => {
 
-    // const action = {
-    //     type: 'delete_todolist',
-    //     payload: {
-    //         id: todolistId1,
-    //     }
-    // } as const
     const endState = todolistsReducer(startState, deleteTodolistAC(todolistId1))
 
     expect(endState.length).toBe(1)
@@ -50,11 +44,11 @@ test("correct todolist should creating new todolist", () => {
 })
 test('correct todolist should change its title',()=>{
     const newTitle = 'changed title';
-    const endState=todolistsReducer(startState,editTodolistTitle(todolistId1,newTitle))
+    const endState=todolistsReducer(startState,editTodolistTitleAC(todolistId1,newTitle))
     expect(endState[0].title).toBe('changed title')
 })
 test('correct todolist should change its filter',()=>{
     const newFilter:FilterValuesType = 'completed';
-    const endState=todolistsReducer(startState,editTodolistFilter(todolistId1,newFilter))
+    const endState=todolistsReducer(startState,editTodolistFilterAC(todolistId1,newFilter))
     expect(endState[0].filter).toBe('completed')
 })

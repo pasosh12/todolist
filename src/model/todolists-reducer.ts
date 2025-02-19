@@ -21,6 +21,7 @@ export const todolistsReducer = (state: TodolistType[] = initialState, action: A
             return state.map((el) => el.id === action.payload.id ? {...el, filter: action.payload.newFilter} : el)
         }
         default:
+            // throw new Error("I don't understand this type")
             return state
     }
 }
@@ -32,17 +33,17 @@ export const deleteTodolistAC = (id: string) => {
 export const createTodolistAC = (title: string) => {
     return {type: 'create_todolist', payload: {id: v1(), title: title}} as const
 }
-export const editTodolistTitle = (id: string, newTitle: string) => {
+export const editTodolistTitleAC = (id: string, newTitle: string) => {
     return {type: 'edit_todolist_title', payload: {id, newTitle}} as const
 }
-export const editTodolistFilter = (id: string, newFilter: FilterValuesType) => {
+export const editTodolistFilterAC = (id: string, newFilter: FilterValuesType) => {
     return {type: 'edit_todolist_filter', payload: {id, newFilter}} as const
 }
 
 export type DeleteTodolistAction = ReturnType<typeof deleteTodolistAC>
 export type CreateTodolistAction = ReturnType<typeof createTodolistAC>
-export type EditTodolistTitle = ReturnType<typeof editTodolistTitle>
-export type ChangeTodolistFilter = ReturnType<typeof editTodolistFilter>
+export type EditTodolistTitle = ReturnType<typeof editTodolistTitleAC>
+export type ChangeTodolistFilter = ReturnType<typeof editTodolistFilterAC>
 // export  type DeleteTodolistAction = {
 //     type: 'delete_todolist'
 //     payload: {

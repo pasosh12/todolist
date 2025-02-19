@@ -1,9 +1,16 @@
-import {useState} from 'react';
+import {useReducer, useState} from 'react';
 import './App.css';
 import {TodolistItem} from './TodolistItem.tsx';
 import {v1} from 'uuid';
 import {AddItemForm} from "./AddItemForm.tsx";
-import { Box, Paper, Grid2 as Grid } from '@mui/material'
+import { Box, Paper, Grid2 } from '@mui/material'
+import {
+    createTodolistAC,
+    deleteTodolistAC,
+    editTodolistFilterAC,
+    editTodolistTitleAC,
+    todolistsReducer
+} from "./model/todolists-reducer.ts";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -26,7 +33,7 @@ function App() {
     let todolistID1 = v1();
     let todolistID2 = v1();
 
-    let [todolists, setTodolists] = useState<Array<TodolistType>>([
+    let [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer,[
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ])
@@ -77,36 +84,47 @@ function App() {
         setTasks(nextState);
     }
 
-    //todoLists
-    //C
+    // todoLists
+    // C
     const createTodolist = (title: string) => {
-        const newTodolistId = v1()
-        const newTodolist: TodolistType = {id: newTodolistId, title, filter: 'all'}
-        const nextState: TodolistType[] = [ newTodolist, ...todolists,]
-        setTodolists(nextState)
-        const nextTasksState: TasksState = {...tasks, [newTodolistId]: []}
+        // const newTodolistId = v1()
+        // const newTodolist: TodolistType = {id: newTodolistId, title, filter: 'all'}
+        // const nextState: TodolistType[] = [ newTodolist, ...todolists,]
+        // setTodolists(nextState)
+        const action=createTodolistAC(title)
+        dispatchToTodolistsReducer(action)
+        // dispatchToTaskreducer(action)
+        const nextTasksState: TasksState = {...tasks, [action.payload.id]: []}
         setTasks(nextTasksState)
     }
 
-    //U
+    // U/
     const changeTodolistFilter = (value: FilterValuesType, todolistsId: string) => {
-        const nextState: TodolistType[] = todolists.map(t => t.id === todolistsId ? {...t, filter: value} : t)
-        setTodolists(nextState)
+        // const nextState: TodolistType[] = todolists.map(t => t.id === todolistsId ? {...t, filter: value} : t)
+        // setTodolists(nextState)
+        dispatchToTodolistsReducer(editTodolistFilterAC(todolistsId, value))
     }
     const changeTodolistTitle = (title: string, todolistsId: string) => {
-        const nextState: TodolistType[] = todolists.map(t => t.id === todolistsId ? {...t, title} : t)
-        setTodolists(nextState)
+        // const nextState: TodolistType[] = todolists.map(t => t.id === todolistsId ? {...t, title} : t)
+        // setTodolists(nextState)
+        dispatchToTodolistsReducer(editTodolistTitleAC(todolistsId,title))
     }
 
-    //D
+    // D
     const deleteTodolist = (todolistsId: string) => {
-        const nextState: TodolistType[] = todolists.filter(tl => tl.id !== todolistsId)
-        setTodolists(nextState)
+        // const nextState: TodolistType[] = todolists.filter(tl => tl.id !== todolistsId)
+        // setTodolists(nextState)
+        // const action=deleteTodolistAC(todolistsId)
+        // dispatchToTodolistsReducer(action)
+        // dispatchToTasksReducer(action)
+        dispatchToTodolistsReducer(deleteTodolistAC(todolistsId))
+        // dispatchToTaskreducer(action)
         delete tasks[todolistsId]
+        // delete tasks[action.payload.id]
     }
 
 
-    const todolistsItems = todolists.map(tl => {
+    let todolistsItems = todolists.map(tl => {
             let tasksForTodolist = tasks[tl.id];
             if (tl.filter === "active") {
                 tasksForTodolist = tasksForTodolist.filter(t => !t.isDone);
@@ -138,25 +156,27 @@ function App() {
     return (
         <div className="App">
             <Box sx={{flexGrow: 1, padding: '20px'}}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={4}>
+                <Grid2 container spacing={2}>
+                    <Grid2>
+                        {/*xs={12} sm={4}>*/}
                         <Paper elevation={3} style={{padding: "10px"}}>
                             <h3>Add new To_do_list</h3>
                             <AddItemForm onCreateItem={createTodolist} placeHolder={'Todo title'}/>
                         </Paper>
-                    </Grid>
-                    <Grid item xs={12} sm={8}>
-                        <Grid container spacing={2}>
+                    </Grid2>
+                    <Grid2>
+                        {/*// xs={12} sm={8}*/}
+                        <Grid2 container spacing={2}>
                             {todolistsItems.map((item, index) => (
-                                <Grid item xs={12} sm={6} key={index}>
+                                <Grid2 key={index}>
                                     <Paper elevation={3} style={{padding: "10px", minHeight:'290px'}}>
                                         {item}
                                     </Paper>
-                                </Grid>
+                                </Grid2>
                             ))}
-                        </Grid>
-                    </Grid>
-                </Grid>
+                        </Grid2>
+                    </Grid2>
+                </Grid2>
             </Box>
         </div>
     );
