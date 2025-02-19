@@ -7,21 +7,21 @@ type PropsType = {
 
 export const EditableSpan = ({title, onChangeTitle}: PropsType) => {
 
-    const [isEditable, setIsEditable] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
 
     return (
-        isEditable ?
+        isEditing ?
             <input value={newTitle}
                    autoFocus
                    onChange={(e) => setNewTitle(e.currentTarget.value)}
                    onBlur={() => {
-                       setIsEditable(false)
+                       setIsEditing(false)
                        onChangeTitle(newTitle)
                    }
                    }
             />
-            : <span onDoubleClick={() => setIsEditable(true)}>{title}</span>
+            : <span onDoubleClick={() => setIsEditing(true)}>{title}</span>
 
     );
 };

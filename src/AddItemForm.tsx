@@ -1,5 +1,6 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button} from "./Button.tsx";
+import {IconButton, TextField} from "@mui/material";
+import {AddCircleOutlined} from "@mui/icons-material";
 
 type AddItemFormPropsType = {
     onCreateItem: (title: string) => void,
@@ -7,36 +8,41 @@ type AddItemFormPropsType = {
 }
 
 export function AddItemForm(props: AddItemFormPropsType) {
-    let [itemTitle, setItemTitle] = useState("")
+    let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setItemTitle(e.currentTarget.value)
-    }
+
+
     const createItemHandler = () => {
-        const trimmedTitle = itemTitle.trim()
-        if (itemTitle.trim() !== "") {
+        const trimmedTitle = title.trim()
+        if (title.trim() !== "") {
             props.onCreateItem(trimmedTitle)
-            setItemTitle("");
+            setTitle("");
         } else {
             setError("Title is required");
         }
     }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
-        if (e.charCode === 13) {
+    const changeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+    const createItemOnEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
             createItemHandler();
         }
     }
     return (
         <div>
-            <input value={itemTitle}
-                   placeholder={props.placeHolder}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   className={error ? "error" : ""}
+            <TextField
+                label={props.placeHolder}
+                variant="outlined"
+                error={!!error}
+                helperText={error}
+                value={title}
+                onChange={changeTitleHandler}
+                onKeyDown={createItemOnEnterHandler}
             />
-            <Button title={'+'} onClick={createItemHandler}/>
-            {error && <div className="error-message">{error}</div>}
+            <IconButton color={'secondary'} onClick={createItemHandler}>
+                <AddCircleOutlined fontSize={'medium'}/>
+            </IconButton>
         </div>
     )
 }

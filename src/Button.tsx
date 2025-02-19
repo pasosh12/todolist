@@ -7,6 +7,5 @@ export const Button = ({title, onClick, disabled, className}: Props) => {
         <button className={className}
                 disabled={disabled}
                 onClick={onClick}>{title}</button>
-
     );
 };

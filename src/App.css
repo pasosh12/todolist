@@ -1,27 +1,30 @@
-body{
-  background-color: #c6bfbf;
-}
-.App {
-  padding: 30px;
+.app {
   display: flex;
-  margin: 0 auto;
+  flex-direction: column;
+  width: 100vw;
 }
 
-/*.App > div {*/
+/*.app > div {*/
 /*  margin-right: 50px;*/
 /*}*/
 
-.error {
-  border: 1px solid red;
+.container {
+  display: flex;
+  align-items: center;
 }
 
-.error-message{
+.error {
+  border: red 1px solid;
+}
+
+.error-message {
   color: red;
 }
 
-.is-done{
-  opacity: 0.5;
-}
 .active-filter {
-    background-color: lightgreen;
+  background-color: lightgreen;
+}
+
+.is-done {
+  opacity: 0.5;
 }
