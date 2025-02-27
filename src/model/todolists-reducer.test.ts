@@ -1,21 +1,21 @@
-import {v1} from 'uuid'
 import type {FilterValuesType, TodolistType} from '../App'
 import {test, expect, beforeEach} from 'vitest'
 import {
     createTodolistAC,
     deleteTodolistAC,
-    editTodolistFilterAC,
-    editTodolistTitleAC,
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
     todolistsReducer
 } from "./todolists-reducer.ts";
+import {nanoid} from "@reduxjs/toolkit";
 
 let todolistId1: string
 let todolistId2: string
 let startState: TodolistType[]
 
 beforeEach(() => {
-    todolistId1 = v1()
-    todolistId2 = v1()
+    todolistId1 = nanoid()
+    todolistId2 = nanoid()
 
     startState = [
         {id: todolistId1, title: "What to learn", filter: "all"},
@@ -27,7 +27,7 @@ beforeEach(() => {
 
 test('correct todolist should be created', () => {
 
-    const endState = todolistsReducer(startState, deleteTodolistAC(todolistId1))
+    const endState = todolistsReducer(startState, deleteTodolistAC({id:todolistId1}))
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todolistId2)
@@ -44,11 +44,11 @@ test("correct todolist should creating new todolist", () => {
 })
 test('correct todolist should change its title',()=>{
     const newTitle = 'changed title';
-    const endState=todolistsReducer(startState,editTodolistTitleAC(todolistId1,newTitle))
+    const endState=todolistsReducer(startState,changeTodolistTitleAC({todolistId: todolistId1,newTitle}))
     expect(endState[0].title).toBe('changed title')
 })
 test('correct todolist should change its filter',()=>{
     const newFilter:FilterValuesType = 'completed';
-    const endState=todolistsReducer(startState,editTodolistFilterAC(todolistId1,newFilter))
+    const endState=todolistsReducer(startState,changeTodolistFilterAC({todolistId:todolistId1,newFilter}))
     expect(endState[0].filter).toBe('completed')
 })

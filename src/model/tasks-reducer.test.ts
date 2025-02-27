@@ -1,4 +1,4 @@
-import {createTaskAC, deleteTaskAC, editTaskStatusAC, editTaskTitleAC, tasksReducer} from "./tasks-reducer.ts";
+import {createTaskAC, deleteTaskAC, changeTaskStatusAC, changeTaskTitleAC, tasksReducer} from "./tasks-reducer.ts";
 import type {TasksState} from "../App.tsx";
 import {test, expect, beforeEach} from 'vitest'
 import {createTodolistAC, deleteTodolistAC} from "./todolists-reducer.ts";
@@ -35,7 +35,7 @@ test('correct todoList should be created', () => {
 
 })
 test('property with todolistId should be deleted', () => {
-    const endState = tasksReducer(startState, deleteTodolistAC('todolistId2'))
+    const endState = tasksReducer(startState, deleteTodolistAC({id:'todolistId2'}))
 
     const keys = Object.keys(endState)
 
@@ -55,11 +55,11 @@ test('correct task should be created and added to start', () => {
 })
 
 test('correct task should update its title', () => {
-    let todolistid = 'todolistId2'
+    let todolistId = 'todolistId2'
     let taskId='1'
     let newTitle = 'changed title'
-    const endState: TasksState = tasksReducer(startState,editTaskTitleAC(todolistid, taskId, newTitle))
-    const taskToChange = endState[todolistid].find(t=>t.id ==taskId)
+    const endState: TasksState = tasksReducer(startState,changeTaskTitleAC({todolistId, taskId, newTitle}))
+    const taskToChange = endState[todolistId].find(t=>t.id ==taskId)
     if(!taskToChange){
         throw Error("Not found such a task")
     }
@@ -67,14 +67,14 @@ test('correct task should update its title', () => {
 })
 
 test('correct task should update its status', () => {
-    let todolistid = 'todolistId2'
+    let todolistId = 'todolistId2'
     let taskId='1'
-    let newStatus = startState[todolistid].find(t => t.id === taskId)?.isDone;
+    let newStatus = startState[todolistId].find(t => t.id === taskId)?.isDone;
     newStatus = newStatus !== undefined ? !newStatus : (() => { throw new Error("Task not found") })();
 
-    const endState: TasksState = tasksReducer(startState,editTaskStatusAC(todolistid, taskId, newStatus))
+    const endState: TasksState = tasksReducer(startState,changeTaskStatusAC({todolistId, taskId, newStatus}))
 
-    const taskToChange = endState[todolistid].find(t=>t.id ==taskId)
+    const taskToChange = endState[todolistId].find(t=>t.id ==taskId)
     if(!taskToChange){
         throw Error("Not found such a task")
     }
@@ -83,6 +83,7 @@ test('correct task should update its status', () => {
 test('correct task should be deleted', () => {
     const todolistTaskToDeleteId='todolistId1'
     const taskToDeleteId='1'
-    const endState = tasksReducer(startState,deleteTaskAC(todolistTaskToDeleteId, taskToDeleteId))
+    const endState = tasksReducer(startState,deleteTaskAC({todolistId: todolistTaskToDeleteId, taskId:taskToDeleteId}))
+    console.log('startState',startState,'endState',endState)
     expect(endState[todolistTaskToDeleteId].length).toEqual(startState[todolistTaskToDeleteId].length-1)
 })
