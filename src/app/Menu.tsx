@@ -1,8 +1,8 @@
 import {Container, Grid2} from "@mui/material";
-import {AddItemForm} from "./AddItemForm.tsx";
-import {useAppDispatch} from "./common/hooks/useAppDispatch.ts";
-import {createTodolistAC} from "./model/todolists-reducer.ts";
-import {Todolists} from "./Todolists.tsx";
+import {AddItemForm} from "../common/components/AddItemForm/AddItemForm.tsx";
+import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
+import {createTodolistAC} from "../features/Todolists/model/todolists-reducer.ts";
+import {Todolists} from "../features/Todolists/ui/Todolists.tsx";
 
 export const Menu = () => {
 
@@ -15,7 +15,7 @@ export const Menu = () => {
     return (
         <Container maxWidth="lg">
             <Grid2 container sx={{p: '15px 0'}}>
-                <AddItemForm placeHolder={'New Todolist Title'} onCreateItem={createTodolist}/>
+                <AddItemForm placeHolder={'New Todolists Title'} onCreateItem={createTodolist}/>
             </Grid2>
             <Grid2 container spacing={4}>
                 <Todolists/>

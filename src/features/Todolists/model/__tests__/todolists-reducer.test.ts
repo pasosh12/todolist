@@ -1,4 +1,4 @@
-import type {FilterValuesType, TodolistType} from '../../app/App.tsx'
+import type {FilterValuesType, TodolistType} from '../../../../app/App.tsx'
 import {test, expect, beforeEach} from 'vitest'
 import {
     createTodolistAC,

@@ -1,5 +1,5 @@
 import {createTaskAC, deleteTaskAC, changeTaskStatusAC, changeTaskTitleAC, tasksReducer} from "../tasks-reducer.ts";
-import type {TasksState} from "../../app/App.tsx";
+import type {TasksState} from "../../../../app/App.tsx";
 import {test, expect, beforeEach} from 'vitest'
 import {createTodolistAC, deleteTodolistAC} from "../todolists-reducer.ts";
 

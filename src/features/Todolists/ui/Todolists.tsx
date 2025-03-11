@@ -1,6 +1,6 @@
-import {useAppSelector} from "./common/hooks/useAppSelector.ts";
-import {selectTodolists} from "./model/todolists-selectors.ts";
-import {TodolistItem} from "./TodolistItem.tsx";
+import {useAppSelector} from "../../../common/hooks/useAppSelector.ts";
+import {selectTodolists} from "../model/todolists-selectors.ts";
+import {TodolistItem} from "./TodolistItem/TodolistItem.tsx";
 
 export const Todolists = () => {
     const todolists = useAppSelector(selectTodolists)

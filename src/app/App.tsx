@@ -3,7 +3,7 @@ import './App.css';
 import {deepOrange, deepPurple} from "@mui/material/colors";
 import {createTheme, CssBaseline, ThemeProvider,} from "@mui/material";
 import {Header} from "../common/components/Header/Header.tsx";
-import {Menu} from "../Menu.tsx";
+import {Menu} from "./Menu.tsx";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
