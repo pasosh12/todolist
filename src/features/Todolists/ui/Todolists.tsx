@@ -1,4 +1,4 @@
-import {useAppSelector} from "../../../common/hooks/useAppSelector.ts";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {selectTodolists} from "../model/todolists-selectors.ts";
 import {TodolistItem} from "./TodolistItem/TodolistItem.tsx";
 

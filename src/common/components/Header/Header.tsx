@@ -1,5 +1,5 @@
 import {AppBar, Box, Container, IconButton, Switch, Theme, Toolbar} from "@mui/material";
-import {containerSx} from "../../../TodolistItem.styles.ts";
+import {containerSx} from "@/TodolistItem.styles.ts";
 import MenuIcon from "@mui/icons-material/Menu";
 import {NavButton} from "../NavButton/NavButton.ts";
 
