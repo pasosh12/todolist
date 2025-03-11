@@ -84,6 +84,6 @@ test('correct task should be deleted', () => {
     const todolistTaskToDeleteId='todolistId1'
     const taskToDeleteId='1'
     const endState = tasksReducer(startState,deleteTaskAC({todolistId: todolistTaskToDeleteId, taskId:taskToDeleteId}))
-    console.log('startState',startState,'endState',endState)
+    // console.log('startState',startState,'endState',endState)
     expect(endState[todolistTaskToDeleteId].length).toEqual(startState[todolistTaskToDeleteId].length-1)
 })
