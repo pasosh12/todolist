@@ -5,7 +5,7 @@ import {createAction, createReducer, nanoid} from "@reduxjs/toolkit";
 const initialState: TodolistType[] = []
 
 export const deleteTodolistAC = createAction<{
-        id: string }>('todolist/delete_todolist')
+        todolistId: string }>('todolist/delete_todolist')
 
 export const createTodolistAC = createAction('todolist/createTodolist', (title: string) => {
     return {payload: {id: nanoid(), title}}
@@ -24,7 +24,7 @@ export const changeTodolistFilterAC = createAction<{
 
 export const todolistsReducer = createReducer(initialState, (builder) => {
     builder.addCase(deleteTodolistAC, (state, action) => {
-        const index = state.findIndex(todolist => todolist.id === action.payload.id)
+        const index = state.findIndex(todolist => todolist.id === action.payload.todolistId)
         if (index !== -1) {
             state.splice(index, 1)
         }

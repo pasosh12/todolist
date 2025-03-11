@@ -35,7 +35,7 @@ test('correct todoList should be created', () => {
 
 })
 test('property with todolistId should be deleted', () => {
-    const endState = tasksReducer(startState, deleteTodolistAC({id:'todolistId2'}))
+    const endState = tasksReducer(startState, deleteTodolistAC({todolistId:'todolistId2'}))
 
     const keys = Object.keys(endState)
 
@@ -75,10 +75,12 @@ test('correct task should update its status', () => {
     const endState: TasksState = tasksReducer(startState,changeTaskStatusAC({todolistId, taskId, newStatus}))
 
     const taskToChange = endState[todolistId].find(t=>t.id ==taskId)
-    if(!taskToChange){
+    const taskToChange2 = endState[todolistId].find(t=>t.id =='2')
+    if(!taskToChange || !taskToChange2){
         throw Error("Not found such a task")
     }
     expect(taskToChange.isDone).toEqual(newStatus)
+    expect(taskToChange2.isDone).toEqual(true)
 })
 test('correct task should be deleted', () => {
     const todolistTaskToDeleteId='todolistId1'
