@@ -2,8 +2,8 @@ import {useState} from 'react';
 import './App.css';
 import {deepOrange, deepPurple} from "@mui/material/colors";
 import {createTheme, CssBaseline, ThemeProvider,} from "@mui/material";
-import {Header} from "./Header.tsx";
-import {Menu} from "./Menu";
+import {Header} from "../common/components/Header/Header.tsx";
+import {Menu} from "../Menu.tsx";
 
 export type FilterValuesType = "all" | "active" | "completed";
 

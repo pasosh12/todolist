@@ -1,4 +1,4 @@
-import {FilterValuesType, TodolistType} from "../../App.tsx";
+import {FilterValuesType, TodolistType} from "../../app/App.tsx";
 import {containerSx} from "../../TodolistItem.styles.ts";
 import {Box, Button} from "@mui/material";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch.ts";

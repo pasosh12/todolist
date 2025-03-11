@@ -1,4 +1,4 @@
-import type {FilterValuesType, TodolistType} from '../App'
+import type {FilterValuesType, TodolistType} from '../../app/App.tsx'
 import {test, expect, beforeEach} from 'vitest'
 import {
     createTodolistAC,
@@ -6,7 +6,7 @@ import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     todolistsReducer
-} from "./todolists-reducer.ts";
+} from "../todolists-reducer.ts";
 import {nanoid} from "@reduxjs/toolkit";
 
 let todolistId1: string

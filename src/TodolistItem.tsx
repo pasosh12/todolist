@@ -1,4 +1,4 @@
-import {TodolistType} from './App';
+import {TodolistType} from './app/App.tsx';
 import {AddItemForm} from "./AddItemForm.tsx";
 import {FilterButtons} from "./features/Tasks/FilterButtons.tsx";
 import TodolistTitle from "./TodolistTitle.tsx";

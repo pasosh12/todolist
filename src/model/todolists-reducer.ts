@@ -1,4 +1,4 @@
-import {FilterValuesType, TodolistType} from '../App'
+import {FilterValuesType, TodolistType} from '../app/App.tsx'
 
 import {createAction, createReducer, nanoid} from "@reduxjs/toolkit";
 
