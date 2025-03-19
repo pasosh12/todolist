@@ -15,7 +15,7 @@ export const NavButton = styled (Button)<Props>(({background, theme})=>({
     background: background || theme.palette.primary.light,
 
     "&:hover": {
-        background: "#0d47a1", // Новый цвет при наведении
+        background: theme.palette.primary.dark, // Новый цвет при наведении
         boxShadow: "0 0 0 2px #054B62, 6px 6px 0 0 #054B62", // Увеличиваем тень
         transform: "translateY(-2px)", // Добавляем эффект поднятия
     },

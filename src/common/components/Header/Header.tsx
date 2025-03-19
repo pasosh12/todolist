@@ -2,13 +2,16 @@ import {AppBar, Box, Container, IconButton, Switch, Theme, Toolbar} from "@mui/m
 import {containerSx} from "@/TodolistItem.styles.ts";
 import MenuIcon from "@mui/icons-material/Menu";
 import {NavButton} from "../NavButton/NavButton.ts";
+import {ThemeMode} from "@/app/app-reducer.ts";
 
 type Props = {
-    isDarkMode: boolean,
-    setDarkMode: Function,
-    theme: Theme,
+    theme: Theme
+    changeThemeMode: () => void,
+    themeMode: ThemeMode,
 }
-export const Header = ({isDarkMode, setDarkMode, theme}: Props) => {
+export const Header = ({
+                           theme, changeThemeMode, themeMode
+                       }: Props) => {
 
     return (
         <AppBar position="static">
@@ -18,10 +21,14 @@ export const Header = ({isDarkMode, setDarkMode, theme}: Props) => {
                         <MenuIcon/>
                     </IconButton>
                     <Box sx={containerSx}>
-                        <Switch checked={isDarkMode} onChange={() => setDarkMode(!isDarkMode)}/>
+                        <Switch checked={themeMode === 'dark'}
+                                onChange={changeThemeMode}
+                        />
                         <NavButton color="inherit">Sign in</NavButton>
                         <NavButton color="inherit">Sign up</NavButton>
-                        <NavButton background={theme.palette.primary.dark} color="inherit">Faq</NavButton>
+                        <NavButton
+                            background={theme.palette.primary.dark}
+                            color="inherit">Faq</NavButton>
                     </Box>
                 </Container>
             </Toolbar>

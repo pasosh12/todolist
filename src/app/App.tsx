@@ -1,9 +1,12 @@
-import {useState} from 'react';
 import './App.css';
-import {deepOrange, deepPurple} from "@mui/material/colors";
-import {createTheme, CssBaseline, ThemeProvider,} from "@mui/material";
+import {CssBaseline, ThemeProvider,} from "@mui/material";
 import {Header} from "../common/components/Header/Header.tsx";
 import {Menu} from "./Menu.tsx";
+import {selectThemeMode} from "@/app/app-selector.ts";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {changeThemeModeAC} from "@/app/app-reducer.ts";
+import {getTheme} from "@/common/theme/theme.ts";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -21,26 +24,23 @@ export type TasksState = {
     [todolistID: string]: TaskType[]
 }
 
-
 export const App = () => {
+    const dispatch = useAppDispatch();
+    const themeMode = useAppSelector(selectThemeMode);
+    const theme = getTheme(themeMode);
 
-    const [isDarkMode, setDarkMode] = useState(false)
-    const theme = createTheme({
-        palette: {
-            // primary: {
-            //     main:'#ef6c00'
-            // },
-            primary: deepOrange,//indigo
-            secondary: deepPurple,
-            mode: isDarkMode ? "dark" : "light"
+    const changeThemeMode = () => {
+        dispatch(changeThemeModeAC({themeMode: themeMode === 'light' ? 'dark' : 'light'}))
+    }
 
-        }
-    })
     return (
         <div className="app">
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <Header isDarkMode={isDarkMode} setDarkMode={setDarkMode} theme={theme}/>
+                <Header
+                    theme={theme}
+                    changeThemeMode={changeThemeMode}
+                    themeMode={themeMode}/>
                 <Menu/>
             </ThemeProvider>
         </div>
