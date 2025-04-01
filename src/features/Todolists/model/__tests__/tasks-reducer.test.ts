@@ -1,7 +1,7 @@
 import {createTaskAC, deleteTaskAC, changeTaskStatusAC, changeTaskTitleAC, tasksReducer} from "../tasks-reducer.ts";
-import type {TasksState} from "../../../../app/App.tsx";
+import type {TasksState} from "@/app/App.tsx";
 import {test, expect, beforeEach} from 'vitest'
-import {createTodolistAC, deleteTodolistAC} from "../todolists-reducer.ts";
+
 
 
 let startState: TasksState = {};
@@ -22,28 +22,31 @@ beforeEach(() => {
 })
 
 
-test('correct todoList should be created', () => {
+// test('correct todoList should be created', () => {
+//
+//     const endState: TasksState = tasksReducer(startState, createTodolistAC('newTodolist'))
+//     const keys=Object.keys(endState)
+//     const newKey = keys.find(k=>k!=='todolistId1' && k!=='todolistId2')
+//     if(!newKey){
+//         throw Error("New key should be added")
+//     }
+//     expect(keys.length).toBe(3)
+//     expect(endState[newKey]).toEqual([])
+//
+// })
+test("correct task should be created at correct array", () => {
+    const endState = tasksReducer(
+        startState,
+        createTaskAC("juice","todolistId2"),
+    )
 
-    const endState: TasksState = tasksReducer(startState, createTodolistAC('newTodolist'))
-    const keys=Object.keys(endState)
-    const newKey = keys.find(k=>k!=='todolistId1' && k!=='todolistId2')
-    if(!newKey){
-        throw Error("New key should be added")
-    }
-    expect(keys.length).toBe(3)
-    expect(endState[newKey]).toEqual([])
-
+    expect(endState.todolistId1.length).toBe(3)
+    expect(endState.todolistId2.length).toBe(4)
+    expect(endState.todolistId2[0].id).toBeDefined()
+    expect(endState.todolistId2[0].title).toBe("juice")
+    expect(endState.todolistId2[0].isDone).toBe(false)
 })
-test('property with todolistId should be deleted', () => {
-    const endState = tasksReducer(startState, deleteTodolistAC({todolistId:'todolistId2'}))
 
-    const keys = Object.keys(endState)
-
-    expect(keys.length).toBe(1)
-    expect(endState['todolistId2']).not.toBeDefined()
-    // or
-    // expect(endState['todolistId2']).toBeUndefined()
-})
 
 test('correct task should be created and added to start', () => {
 

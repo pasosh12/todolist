@@ -1,4 +1,4 @@
-import type {FilterValuesType, TodolistType} from '../../../../app/App.tsx'
+import type {FilterValuesType, TodolistType} from '@/app/App.tsx'
 import {test, expect, beforeEach} from 'vitest'
 import {
     createTodolistAC,
@@ -33,14 +33,19 @@ test('correct todolist should be created', () => {
     expect(endState[0].id).toBe(todolistId2)
 
 })
+test("correct todolist should be deleted", () => {
+    const endState = todolistsReducer(startState, deleteTodolistAC({ todolistId: todolistId1 }))
 
+    expect(endState.length).toBe(1)
+    expect(endState[0].id).toBe(todolistId2)
+})
 test("correct todolist should creating new todolist", () => {
 
     const newTitle = 'What to bake';
     const endState = todolistsReducer(startState, createTodolistAC(newTitle))
     expect(endState.length).toBe(3)
     // expect(endState[2].id).toBe(newListId)
-    expect(endState[2].title).toBe(newTitle)
+    expect(endState[0].title).toBe(newTitle)
 })
 test('correct todolist should change its title',()=>{
     const newTitle = 'changed title';
