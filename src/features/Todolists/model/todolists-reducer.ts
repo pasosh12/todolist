@@ -81,7 +81,7 @@ export const todolistsSlice = createSlice({
                     }
                 }),
                 (state, action) => {
-                    state.push({...action.payload, filter: 'all'})
+                    state.unshift({...action.payload, filter: 'all'})
                 }
             )
         }
@@ -96,9 +96,25 @@ export const todolistsSlice = createSlice({
         builder.addCase(deleteTodolistsTC.fulfilled, (state, action) => {
             return state.filter(tl=>tl.id!==action.payload.todolistId)
         })
+        builder.addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
+            const index = state.findIndex((todolist) => todolist.id === action.payload.id)
+            if (index !== -1) {
+                state[index].title = action.payload.title
+            }
+        })
     }
 })
-
+export const changeTodolistTitleTC = createAsyncThunk(
+    `${todolistsSlice.name}/changeTodolistTitleAC`,
+    async (args: { id: string; title: string }, { rejectWithValue }) => {
+        try {
+            await todolistsApi.changeTodolistTitle(args)
+            return args
+        } catch (err) {
+            return rejectWithValue(null)
+        }
+    },
+)
 export const fetchTodolistsTC = createAsyncThunk(
     `${todolistsSlice.name}/fetchTodolistsTC`,
     async (_args, {rejectWithValue}) => {
