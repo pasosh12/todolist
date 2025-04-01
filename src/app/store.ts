@@ -1,8 +1,7 @@
 import {configureStore, combineReducers} from '@reduxjs/toolkit'
-import {tasksReducer} from "../features/Todolists/model/tasks-reducer.ts";
-// import {todolistsReducer} from "../features/Todolists/model/todolists-reducer.ts";
+import {tasksReducer, tasksSlice} from "../features/Todolists/model/tasks-reducer.ts";
 import {appReducer} from "@/app/app-reducer.ts";
-import {todolistsSliceReducer} from "@/features/Todolists/model/todolists-reducer.ts";
+import {todolistsSlice, todolistsReducer} from "@/features/Todolists/model/todolists-reducer.ts";
 
 // const rootReducer = combineReducers({
 //     tasks: tasksReducer,
@@ -11,8 +10,8 @@ import {todolistsSliceReducer} from "@/features/Todolists/model/todolists-reduce
 // })
 
 const rootReducer = combineReducers({
-    tasks: tasksReducer,
-    todolists: todolistsSliceReducer,
+    [tasksSlice.name]: tasksReducer,
+    [todolistsSlice.name]: todolistsReducer,
     app: appReducer,
 })
 
