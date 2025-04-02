@@ -1,14 +1,14 @@
 import {Container, Grid2} from "@mui/material";
 import {AddItemForm} from "../common/components/AddItemForm/AddItemForm.tsx";
 import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
-import {createTodolistAC} from "../features/Todolists/model/todolists-reducer.ts";
+import {createTodolistTC} from "../features/Todolists/model/todolists-reducer.ts";
 import {Todolists} from "../features/Todolists/ui/Todolists.tsx";
 
 export const Menu = () => {
 
     const dispatch = useAppDispatch();
     const createTodolist = (title: string) => {
-        const action = createTodolistAC(title)
+        const action = createTodolistTC({title})
         dispatch(action)
     }
 
