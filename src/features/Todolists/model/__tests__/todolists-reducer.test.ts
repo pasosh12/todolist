@@ -24,13 +24,13 @@ beforeEach(() => {
 })
 
 test("correct todolist should be created", () => {
-  const endState = todolistsReducer(startState, deleteTodolistAC({ todolistId: todolistId1 }))
+  const endState = todolistsReducer(startState, deleteTodolistAC({ id: todolistId1 }))
 
   expect(endState.length).toBe(1)
   expect(endState[0].id).toBe(todolistId2)
 })
 test("correct todolist should be deleted", () => {
-  const endState = todolistsReducer(startState, deleteTodolistAC({ todolistId: todolistId1 }))
+  const endState = todolistsReducer(startState, deleteTodolistAC({ id: todolistId1 }))
 
   expect(endState.length).toBe(1)
   expect(endState[0].id).toBe(todolistId2)
@@ -44,7 +44,7 @@ test("correct todolist should creating new todolist", () => {
 })
 test("correct todolist should change its title", () => {
   const newTitle = "changed title"
-  const endState = todolistsReducer(startState, changeTodolistTitleAC({ todolistId: todolistId1, newTitle }))
+  const endState = todolistsReducer(startState, changeTodolistTitleAC({ id: todolistId1, title: newTitle }))
   expect(endState[0].title).toBe("changed title")
 })
 test("correct todolist should change its filter", () => {
