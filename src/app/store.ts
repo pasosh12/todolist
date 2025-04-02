@@ -1,7 +1,7 @@
-import {configureStore, combineReducers} from '@reduxjs/toolkit'
-import {tasksReducer, tasksSlice} from "../features/Todolists/model/tasks-reducer.ts";
-import {appReducer} from "@/app/app-reducer.ts";
-import {todolistsSlice, todolistsReducer} from "@/features/Todolists/model/todolists-reducer.ts";
+import { configureStore, combineReducers } from "@reduxjs/toolkit"
+import { tasksReducer, tasksSlice } from "../features/Todolists/model/tasks-reducer.ts"
+import { appReducer } from "@/app/app-reducer.ts"
+import { todolistsSlice, todolistsReducer } from "@/features/Todolists/model/todolists-reducer.ts"
 
 // const rootReducer = combineReducers({
 //     tasks: tasksReducer,
@@ -10,13 +10,13 @@ import {todolistsSlice, todolistsReducer} from "@/features/Todolists/model/todol
 // })
 
 const rootReducer = combineReducers({
-    [tasksSlice.name]: tasksReducer,
-    [todolistsSlice.name]: todolistsReducer,
-    app: appReducer,
+  [tasksSlice.name]: tasksReducer,
+  [todolistsSlice.name]: todolistsReducer,
+  app: appReducer,
 })
 
 export const store = configureStore({
-    reducer: rootReducer,
+  reducer: rootReducer,
 })
 
 // автоматическое определение типа всего объекта состояния
@@ -24,4 +24,4 @@ export type RootState = ReturnType<typeof store.getState>
 // автоматическое определение типа метода dispatch
 export type AppDispatch = typeof store.dispatch
 //@ts-ignore
-window.store = store;
+window.store = store

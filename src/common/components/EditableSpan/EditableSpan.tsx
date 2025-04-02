@@ -1,28 +1,25 @@
-import {useState} from 'react';
+import { useState } from "react"
 
 type PropsType = {
-    title: string,
-    onChangeTitle: (newTitle: string) => void,
+  title: string
+  onChangeTitle: (newTitle: string) => void
 }
 
-export const EditableSpan = ({title, onChangeTitle}: PropsType) => {
+export const EditableSpan = ({ title, onChangeTitle }: PropsType) => {
+  const [isEditing, setIsEditing] = useState(false)
+  const [newTitle, setNewTitle] = useState(title)
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [newTitle, setNewTitle] = useState(title);
-
-    return (
-        isEditing ?
-            <input value={newTitle}
-                   autoFocus
-                   onChange={(e) => setNewTitle(e.currentTarget.value)}
-                   onBlur={() => {
-                       setIsEditing(false)
-                       onChangeTitle(newTitle)
-                   }
-                   }
-            />
-            : <span onDoubleClick={() => setIsEditing(true)}>{title}</span>
-
-    );
-};
-
+  return isEditing ? (
+    <input
+      value={newTitle}
+      autoFocus
+      onChange={(e) => setNewTitle(e.currentTarget.value)}
+      onBlur={() => {
+        setIsEditing(false)
+        onChangeTitle(newTitle)
+      }}
+    />
+  ) : (
+    <span onDoubleClick={() => setIsEditing(true)}>{title}</span>
+  )
+}
