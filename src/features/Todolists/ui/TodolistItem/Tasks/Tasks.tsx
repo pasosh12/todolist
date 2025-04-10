@@ -1,11 +1,11 @@
 import { List } from "@mui/material"
 
 import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
-import { fetchTasksData, selectTasks } from "../../../model/tasks-reducer.ts"
+import { fetchTasksData, selectTasks } from "../../../model/tasks-Slice.ts"
 import { TaskItem } from "./TaskItem/TaskItem.tsx"
 import { useEffect } from "react"
 import { TaskStatus } from "@/common/enums"
-import { DomainTodolist } from "@/features/Todolists/model/todolists-reducer.ts"
+import { DomainTodolist } from "@/features/Todolists/model/todolists-Slice.ts"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 
 type Props = {

@@ -1,7 +1,7 @@
 import { Container, Grid2 } from "@mui/material"
 import { AddItemForm } from "@/common/components"
 import { useAppDispatch } from "../common/hooks/useAppDispatch.ts"
-import { createTodolistTC } from "../features/Todolists/model/todolists-reducer.ts"
+import { createTodolistTC } from "../features/Todolists/model/todolists-Slice.ts"
 import { Todolists } from "../features/Todolists/ui/Todolists.tsx"
 
 export const Menu = () => {
