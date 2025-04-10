@@ -5,7 +5,7 @@ import { Menu } from "./Menu.tsx"
 import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
 import { getTheme } from "@/common/theme/theme.ts"
 import { DomainTask } from "@/features/Todolists/api/tasksApi.types.ts"
-import { selectTheme } from "@/app/app-reducer.ts"
+import { selectTheme } from "@/app/app-Slice.ts"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
