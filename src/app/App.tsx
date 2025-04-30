@@ -4,8 +4,8 @@ import { Header } from "@/common/components"
 import { Menu } from "./Menu.tsx"
 import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
 import { getTheme } from "@/common/theme/theme.ts"
-import { DomainTask } from "@/features/Todolists/api/tasksApi.types.ts"
 import { selectTheme } from "@/app/app-Slice.ts"
+import { Routing } from "@/common/routing"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -19,9 +19,6 @@ export type TodolistType = {
   title: string
   filter: FilterValuesType
 }
-export type TasksState = {
-  [todolistID: string]: DomainTask[]
-}
 
 export const App = () => {
   const themeMode = useAppSelector(selectTheme)
@@ -32,6 +29,7 @@ export const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
+        <Routing />
         <Menu />
       </ThemeProvider>
     </div>
