@@ -1,10 +1,7 @@
 import { setAppStatusAC } from "@/app/app-Slice"
 import { ResultCode } from "@/common/enums"
 import type { RequestStatus } from "@/common/types"
-import {
-  createAppSlice,
-  // handleServerAppError, handleServerNetworkError
-} from "@/common/utils"
+import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { Todolist, TodolistSchema } from "@/features/Todolists/api/todolistsApi.types"
 import { todolistsApi } from "@/features/Todolists/api/todolistsApi"
 
@@ -24,13 +21,17 @@ export const todolistsSlice = createAppSlice({
           dispatch(setAppStatusAC({ status: "succeeded" }))
           return { todolists }
         } catch (error) {
-          // handleServerNetworkError(dispatch, error)
+          handleServerNetworkError(dispatch, error)
           return rejectWithValue(null)
         }
       },
       {
         fulfilled: (_state, action) => {
-          return action.payload.todolists.map((todolist) => ({ ...todolist, filter: "all", entityStatus: "idle" }))
+          return action.payload.todolists.map((todolist) => ({
+            ...todolist,
+            filter: "all",
+            entityStatus: "idle",
+          }))
         },
       },
     ),
@@ -43,11 +44,11 @@ export const todolistsSlice = createAppSlice({
             dispatch(setAppStatusAC({ status: "succeeded" }))
             return { todolist: res.data.data.item }
           } else {
-            // handleServerAppError(res.data, dispatch)
+            handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
         } catch (error) {
-          // handleServerNetworkError(dispatch, error)
+          handleServerNetworkError(dispatch, error)
           return rejectWithValue(null)
         }
       },
@@ -68,12 +69,12 @@ export const todolistsSlice = createAppSlice({
             return { id }
           } else {
             dispatch(changeTodolistStatusAC({ id, entityStatus: "failed" }))
-            // handleServerAppError(res.data, dispatch)
+            handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
         } catch (error) {
           dispatch(changeTodolistStatusAC({ id, entityStatus: "failed" }))
-          // handleServerNetworkError(dispatch, error)
+          handleServerNetworkError(dispatch, error)
           return rejectWithValue(null)
         }
       },
@@ -95,11 +96,11 @@ export const todolistsSlice = createAppSlice({
             dispatch(setAppStatusAC({ status: "succeeded" }))
             return payload
           } else {
-            // handleServerAppError(res.data, dispatch)
+            handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
         } catch (error) {
-          // handleServerNetworkError(dispatch, error)
+          handleServerNetworkError(dispatch, error)
           return rejectWithValue(null)
         }
       },

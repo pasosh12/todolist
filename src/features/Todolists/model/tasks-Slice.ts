@@ -1,8 +1,8 @@
 import { createTodolistTC, deleteTodolistTC } from "@/features/Todolists/model/todolists-Slice.ts"
-import { createAppSlice } from "@/common/utils"
+import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { tasksApi } from "@/features/Todolists/api/tasksApi.ts"
 import { setAppStatusAC } from "@/app/app-Slice.ts"
-import { DomainTask, UpdateTaskModel } from "@/features/Todolists/api/tasksApi.types.ts"
+import { DomainTask, DomainTaskSchema, UpdateTaskModel } from "@/features/Todolists/api/tasksApi.types.ts"
 import { RootState } from "@/app/store.ts"
 import { ResultCode } from "@/common/enums"
 
@@ -29,9 +29,12 @@ export const tasksSlice = createAppSlice({
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await tasksApi.getTasks(arg.todolistId)
+          const tasks = DomainTaskSchema.array().parse(res.data.items)
           dispatch(setAppStatusAC({ status: "succeeded" }))
-          return { tasks: res.data.items, todolistId: arg.todolistId }
-        } catch (error) {
+          return { tasks, todolistId: arg.todolistId }
+        } catch (error: any) {
+          console.log(error)
+          handleServerNetworkError(error, dispatch)
           return rejectWithValue(null)
         }
       },
@@ -71,11 +74,11 @@ export const tasksSlice = createAppSlice({
             dispatch(setAppStatusAC({ status: "succeeded" }))
             return { task: res.data.data.item }
           } else {
-            // handleServerAppError(res.data, dispatch)
+            handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
         } catch (error) {
-          // handleServerNetworkError(dispatch, error)
+          handleServerNetworkError(dispatch, error)
           return rejectWithValue(null)
         }
       },
@@ -118,11 +121,11 @@ export const tasksSlice = createAppSlice({
             dispatch(setAppStatusAC({ status: "succeeded" }))
             return { task: res.data.data.item }
           } else {
-            // handleServerAppError(res.data, dispatch)
+            handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
         } catch (error) {
-          // handleServerNetworkError(dispatch, error)
+          handleServerNetworkError(dispatch, error)
           return rejectWithValue(null)
         }
       },
