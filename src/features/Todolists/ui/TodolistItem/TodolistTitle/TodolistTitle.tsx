@@ -13,7 +13,7 @@ const TodolistTitle = ({ todolist }: PropsType) => {
 
   const dispatch = useAppDispatch()
   const deleteTodoList = () => {
-    dispatch(deleteTodolistTC({ todolistId: id }))
+    dispatch(deleteTodolistTC(id))
   }
   const changeTodolistTitle = (newTitle: string) => {
     dispatch(changeTodolistTitleTC({ todolistId: id, title: newTitle }))
