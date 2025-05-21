@@ -13,16 +13,14 @@ import Grid from "@mui/material/Grid2"
 import TextField from "@mui/material/TextField"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
-import { loginTC, selectIsLoggedIn } from "@/features/auth/model/auth.slice.ts"
-import { Navigate } from "react-router"
-import { Path } from "@/common/routing"
+import { loginTC, refreshCaptcha, selectCaptcha } from "@/features/auth/model/auth.slice.ts"
+import RefreshIcon from "@mui/icons-material/Refresh"
 
 export const Login = () => {
-  const themeMode = useAppSelector(selectTheme)
-
-  const isLoggedIn = useAppSelector(selectIsLoggedIn)
-  const theme = getTheme(themeMode)
   const dispatch = useAppDispatch()
+  const themeMode = useAppSelector(selectTheme)
+  const captchaSrc = useAppSelector(selectCaptcha)
+  const theme = getTheme(themeMode)
 
   const {
     register,
@@ -32,18 +30,19 @@ export const Login = () => {
     formState: { errors },
   } = useForm<LoginInputs>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "", rememberMe: false },
+    defaultValues: { email: "", password: "", rememberMe: false, captcha: "" },
   })
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    console.log(data)
     dispatch(loginTC(data))
-    reset()
+    if (captchaSrc === "") {
+      reset()
+    }
+  }
+  const refreshCaptchaHandler = () => {
+    dispatch(refreshCaptcha())
   }
 
-  if (isLoggedIn) {
-    return <Navigate to={Path.Main} />
-  }
   return (
     <Grid container justifyContent={"center"}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,9 +88,26 @@ export const Login = () => {
                 />
               }
             />
+            {/*<FormControlLabel label={"captcha"} />*/}
             <Button type="submit" variant="contained" color="primary">
               Login
             </Button>
+            {captchaSrc && (
+              <>
+                <img src={captchaSrc} alt={"captcha"} style={{ margin: "10px 0" }} />
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <TextField
+                    label={"Enter captcha"}
+                    margin={"normal"}
+                    type="text"
+                    error={!!errors.captcha}
+                    {...register("captcha")}
+                  />
+                  {errors.captcha && <span className={styles.errorMessage}>{errors.captcha.message}</span>}
+                  <RefreshIcon onClick={refreshCaptchaHandler} />
+                </div>
+              </>
+            )}
           </FormGroup>
         </FormControl>
       </form>

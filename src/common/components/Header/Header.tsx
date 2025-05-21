@@ -6,16 +6,20 @@ import { changeThemeModeAC, selectStatus, selectTheme } from "@/app/app-Slice.ts
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 import { getTheme } from "@/common/theme/theme.ts"
 import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
+import { logoutTC, selectIsLoggedIn } from "@/features/auth/model/auth.slice.ts"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectTheme)
   const theme = getTheme(themeMode)
   const loadingStatus = useAppSelector(selectStatus)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
   const changeThemeMode = () => {
     dispatch(changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" }))
   }
-
+  const logoutHandler = () => {
+    dispatch(logoutTC())
+  }
   return (
     <AppBar position="static">
       <Toolbar>
@@ -25,8 +29,11 @@ export const Header = () => {
           </IconButton>
           <Box sx={containerSx}>
             <Switch checked={themeMode === "dark"} onChange={changeThemeMode} />
-            <NavButton color="inherit">Sign in</NavButton>
-            <NavButton color="inherit">Sign up</NavButton>
+            {isLoggedIn && (
+              <NavButton onClick={logoutHandler} color="inherit">
+                Sign out
+              </NavButton>
+            )}
             <NavButton background={theme.palette.primary.dark} color="inherit">
               Faq
             </NavButton>
