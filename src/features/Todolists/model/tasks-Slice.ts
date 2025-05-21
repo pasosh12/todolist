@@ -5,7 +5,7 @@ import { setAppStatusAC } from "@/app/app-Slice.ts"
 import { DomainTask, DomainTaskSchema, UpdateTaskModel } from "@/features/Todolists/api/tasksApi.types.ts"
 import { RootState } from "@/app/store.ts"
 import { ResultCode } from "@/common/enums"
-import { clearTasksAndTodolists } from "@/common/actions/common.actions.ts"
+import { clearData } from "@/common/actions/common.actions.ts"
 
 const initialState: TasksState = {}
 
@@ -23,7 +23,7 @@ export const tasksSlice = createAppSlice({
       .addCase(deleteTodolistTC.fulfilled, (state, action) => {
         delete state[action.payload.id]
       })
-      .addCase(clearTasksAndTodolists.type, () => {
+      .addCase(clearData.type, () => {
         return {}
       })
   },

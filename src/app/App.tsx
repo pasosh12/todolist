@@ -3,11 +3,12 @@ import { CircularProgress, CssBaseline, ThemeProvider } from "@mui/material"
 import { ErrorSnackbar, Header } from "@/common/components"
 import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
 import { getTheme } from "@/common/theme/theme.ts"
-import { selectTheme } from "@/app/app-Slice.ts"
+import { selectTheme, setIsLoggedInAC } from "@/app/app-Slice.ts"
 import { Routing } from "@/common/routing"
 import { useAppDispatch } from "@/common/hooks"
 import { useEffect, useState } from "react"
-import { initializeAppTC } from "@/features/auth/model/auth.slice.ts"
+import { useMeQuery } from "@/features/auth/api/authApi.ts"
+import { ResultCode } from "@/common/enums"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -23,9 +24,15 @@ export const App = () => {
   const theme = getTheme(themeMode)
   const [isInitialized, setIsInitialized] = useState(false)
 
+  const { data, isLoading } = useMeQuery()
+
   useEffect(() => {
-    dispatch(initializeAppTC()).finally(() => setIsInitialized(true))
-  }, [])
+    if (isLoading) return
+    setIsInitialized(true)
+    if (data?.resultCode === ResultCode.Success) {
+      dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+    }
+  }, [isLoading])
 
   if (!isInitialized) {
     return (

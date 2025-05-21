@@ -4,7 +4,7 @@ import { Login } from "@/features/auth/ui/Login.tsx"
 import { Menu } from "@/app/Menu.tsx"
 import { ProtectedRoute } from "@/common/components/ProtectedRoute/ProtectedRoute.tsx"
 import { useAppSelector } from "@/common/hooks"
-import { selectIsLoggedIn } from "@/features/auth/model/auth.slice.ts"
+import { selectIsLoggedIn } from "@/app/app-Slice.ts"
 
 export const Path = {
   Main: "/",

@@ -4,7 +4,7 @@ import type { RequestStatus } from "@/common/types"
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { Todolist, TodolistSchema } from "@/features/Todolists/api/todolistsApi.types"
 import { _todolistsApi } from "@/features/Todolists/api/todolistsApi"
-import { clearTasksAndTodolists } from "@/common/actions/common.actions.ts"
+import { clearData } from "@/common/actions/common.actions.ts"
 
 export const todolistsSlice = createAppSlice({
   name: "todolists",
@@ -128,7 +128,7 @@ export const todolistsSlice = createAppSlice({
     }),
   }),
   extraReducers: (builder) => {
-    builder.addCase(clearTasksAndTodolists.type, () => {
+    builder.addCase(clearData.type, () => {
       return []
     })
   },

@@ -2,11 +2,14 @@ import { AppBar, Box, Container, IconButton, LinearProgress, Switch, Toolbar } f
 import { containerSx } from "@/TodolistItem.styles.ts"
 import MenuIcon from "@mui/icons-material/Menu"
 import { NavButton } from "@/common/components"
-import { changeThemeModeAC, selectStatus, selectTheme } from "@/app/app-Slice.ts"
+import { changeThemeModeAC, selectIsLoggedIn, selectStatus, selectTheme, setIsLoggedInAC } from "@/app/app-Slice.ts"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 import { getTheme } from "@/common/theme/theme.ts"
 import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
-import { logoutTC, selectIsLoggedIn } from "@/features/auth/model/auth.slice.ts"
+import { authApi, useLogoutMutation } from "@/features/auth/api/authApi.ts"
+import { ResultCode } from "@/common/enums"
+import { AUTH_TOKEN } from "@/common/constants"
+import { clearData } from "@/common/actions"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectTheme)
@@ -14,11 +17,23 @@ export const Header = () => {
   const loadingStatus = useAppSelector(selectStatus)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
+  const [logout] = useLogoutMutation()
   const changeThemeMode = () => {
     dispatch(changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" }))
   }
+
   const logoutHandler = () => {
-    dispatch(logoutTC())
+    logout()
+      .then((res) => {
+        if (res.data?.resultCode === ResultCode.Success) {
+          dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+          localStorage.removeItem(AUTH_TOKEN)
+          dispatch(clearData())
+        }
+      })
+      .then(() => {
+        dispatch(authApi.util.invalidateTags(["Todolist"]))
+      })
   }
   return (
     <AppBar position="static">

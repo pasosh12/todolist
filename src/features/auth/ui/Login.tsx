@@ -1,4 +1,4 @@
-import { selectTheme } from "@/app/app-Slice.ts"
+import { selectTheme, setIsLoggedInAC } from "@/app/app-Slice.ts"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { getTheme } from "@/common/theme"
 import { type LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
@@ -13,15 +13,21 @@ import Grid from "@mui/material/Grid2"
 import TextField from "@mui/material/TextField"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
-import { loginTC, refreshCaptcha, selectCaptcha } from "@/features/auth/model/auth.slice.ts"
+// import { refreshCaptcha, selectCaptcha } from "@/features/auth/model/auth.slice.ts"
 import RefreshIcon from "@mui/icons-material/Refresh"
+import { useLoginMutation, useSecurityQuery } from "@/features/auth/api/authApi.ts"
+import { AUTH_TOKEN } from "@/common/constants"
+import { ResultCode } from "@/common/enums"
+import { useState } from "react"
 
 export const Login = () => {
   const dispatch = useAppDispatch()
   const themeMode = useAppSelector(selectTheme)
-  const captchaSrc = useAppSelector(selectCaptcha)
   const theme = getTheme(themeMode)
+  const [capcha, setCapthcha] = useState<string>("")
+  const [login] = useLoginMutation()
 
+  const { refetch } = useSecurityQuery()
   const {
     register,
     handleSubmit,
@@ -33,14 +39,27 @@ export const Login = () => {
     defaultValues: { email: "", password: "", rememberMe: false, captcha: "" },
   })
 
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    dispatch(loginTC(data))
-    if (captchaSrc === "") {
-      reset()
+  const fetchCaptcha = async () => {
+    const newCapcha = await refetch()
+    if (newCapcha?.data?.url) {
+      setCapthcha(newCapcha.data.url)
     }
   }
-  const refreshCaptchaHandler = () => {
-    dispatch(refreshCaptcha())
+  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
+    try {
+      const result = await login(data).unwrap()
+
+      if (result.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+        localStorage.setItem(AUTH_TOKEN, result.data.token)
+      } else if (result.resultCode === ResultCode.CaptchaError) {
+        await fetchCaptcha()
+      }
+    } catch (error) {
+      console.error("Ошибка авторизации:", error)
+    } finally {
+      reset()
+    }
   }
 
   return (
@@ -88,13 +107,13 @@ export const Login = () => {
                 />
               }
             />
-            {/*<FormControlLabel label={"captcha"} />*/}
+
             <Button type="submit" variant="contained" color="primary">
               Login
             </Button>
-            {captchaSrc && (
+            {capcha && (
               <>
-                <img src={captchaSrc} alt={"captcha"} style={{ margin: "10px 0" }} />
+                <img src={capcha} alt={"captcha"} style={{ margin: "10px 0" }} />
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <TextField
                     label={"Enter captcha"}
@@ -104,7 +123,7 @@ export const Login = () => {
                     {...register("captcha")}
                   />
                   {errors.captcha && <span className={styles.errorMessage}>{errors.captcha.message}</span>}
-                  <RefreshIcon onClick={refreshCaptchaHandler} />
+                  <RefreshIcon onClick={fetchCaptcha} />
                 </div>
               </>
             )}

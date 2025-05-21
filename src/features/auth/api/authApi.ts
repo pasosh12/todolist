@@ -1,19 +1,29 @@
-import { instance } from "@/common/instance"
 import type { BaseResponse } from "@/common/types"
-import type { MeResponse } from "@/features/auth/api/authApi.types.ts"
-import type { LoginInputs } from "@/features/auth/lib/schemas"
+import type { LoginArgs } from "@/features/auth/api/authApi.types.ts"
+import { baseApi } from "@/app/baseApi.ts"
 
-export const authApi = {
-  login(args: LoginInputs) {
-    return instance.post<BaseResponse<{ userId: number; token: string }>>("/auth/login", args)
-  },
-  logout() {
-    return instance.delete<BaseResponse>("/auth/login")
-  },
-  me() {
-    return instance.get<BaseResponse<MeResponse>>("/auth/me")
-  },
-  security() {
-    return instance.get<{ url: string }>("/security/get-captcha-url")
-  },
-}
+export const authApi = baseApi.injectEndpoints({
+  endpoints: (build) => ({
+    me: build.query<BaseResponse<{ id: number; email: string; login: string }>, void>({
+      query: () => "auth/me",
+    }),
+    login: build.mutation<BaseResponse<{ userId: number; token: string }>, LoginArgs>({
+      query: (body) => ({
+        url: "auth/login",
+        method: "POST",
+        body,
+      }),
+    }),
+    logout: build.mutation<BaseResponse, void>({
+      query: () => ({
+        url: "auth/login",
+        method: "DELETE",
+      }),
+    }),
+    security: build.query<{ url: string }, void>({
+      query: () => `security/get-captcha-url`,
+    }),
+  }),
+})
+
+export const { useMeQuery, useLoginMutation, useLogoutMutation, useSecurityQuery } = authApi
