@@ -12,7 +12,7 @@ export const FilterButtons = ({ todolist }: PropsType) => {
   const dispatch = useAppDispatch()
 
   const changeFilterHandler = (value: FilterValuesType) => {
-    dispatch(changeTodolistFilterAC({ todolistId: id, newFilter: value }))
+    dispatch(changeTodolistFilterAC({ id: id, filter: value }))
   }
   return (
     <Box sx={containerSx}>

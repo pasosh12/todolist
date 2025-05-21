@@ -4,6 +4,7 @@ import { authApi } from "@/features/auth/api/authApi.ts"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
 import { setAppStatusAC } from "@/app/app-Slice.ts"
+import { clearTasksAndTodolists } from "@/common/actions"
 
 export const authSlice = createAppSlice({
   name: "auth",
@@ -42,7 +43,6 @@ export const authSlice = createAppSlice({
             if (res.data.resultCode === ResultCode.CaptchaError) {
               dispatch(setAppStatusAC({ status: "succeeded" }))
               const captcha = await authApi.security()
-              console.log("login with capthca", captcha)
               dispatch(setCaptcha({ captchaText: captcha.data.url }))
               return { isLoggedIn: false }
             }
@@ -68,6 +68,7 @@ export const authSlice = createAppSlice({
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setAppStatusAC({ status: "succeeded" }))
             localStorage.removeItem(AUTH_TOKEN)
+            dispatch(clearTasksAndTodolists())
             return { isLoggedIn: false }
           } else {
             handleServerAppError(res.data, dispatch)
