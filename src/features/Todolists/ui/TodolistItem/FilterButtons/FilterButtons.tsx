@@ -2,7 +2,7 @@ import { FilterValuesType, TodolistType } from "@/app/App.tsx"
 import { containerSx } from "@/TodolistItem.styles.ts"
 import { Box, Button } from "@mui/material"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
-import { changeTodolistFilterAC } from "../../../model/todolists-Slice.ts"
+import { todolistsApi } from "@/features/Todolists/api/todolistsApi.ts"
 
 type PropsType = {
   todolist: TodolistType
@@ -12,7 +12,15 @@ export const FilterButtons = ({ todolist }: PropsType) => {
   const dispatch = useAppDispatch()
 
   const changeFilterHandler = (value: FilterValuesType) => {
-    dispatch(changeTodolistFilterAC({ id: id, filter: value }))
+    dispatch(
+      todolistsApi.util.updateQueryData("getTodolists", undefined, (state) => {
+        const todolist = state.find((todolist) => todolist.id === id)
+        if (todolist) {
+          todolist.filter = value
+        }
+      }),
+      // changeTodolistFilterAC({ id, filter: value })
+    )
   }
   return (
     <Box sx={containerSx}>
@@ -20,7 +28,9 @@ export const FilterButtons = ({ todolist }: PropsType) => {
         variant={"contained"}
         disableElevation
         color={filter === "all" ? "secondary" : "primary"}
-        onClick={() => changeFilterHandler("all")}
+        onClick={() => {
+          changeFilterHandler("all")
+        }}
       >
         All
       </Button>

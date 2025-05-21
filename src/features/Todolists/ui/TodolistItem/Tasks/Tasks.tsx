@@ -13,7 +13,6 @@ type Props = {
 }
 export const Tasks = ({ todolist }: Props) => {
   const { id, filter } = todolist
-  // debugger
   const dispatch = useAppDispatch()
   const tasks = useAppSelector(selectTasks)
   useEffect(() => {

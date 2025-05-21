@@ -5,6 +5,7 @@ import { setAppStatusAC } from "@/app/app-Slice.ts"
 import { DomainTask, DomainTaskSchema, UpdateTaskModel } from "@/features/Todolists/api/tasksApi.types.ts"
 import { RootState } from "@/app/store.ts"
 import { ResultCode } from "@/common/enums"
+import { clearTasksAndTodolists } from "@/common/actions/common.actions.ts"
 
 const initialState: TasksState = {}
 
@@ -22,6 +23,9 @@ export const tasksSlice = createAppSlice({
       .addCase(deleteTodolistTC.fulfilled, (state, action) => {
         delete state[action.payload.id]
       })
+      .addCase(clearTasksAndTodolists.type, () => {
+        return {}
+      })
   },
   reducers: (create) => ({
     fetchTasksData: create.asyncThunk(
@@ -33,7 +37,6 @@ export const tasksSlice = createAppSlice({
           dispatch(setAppStatusAC({ status: "succeeded" }))
           return { tasks, todolistId: arg.todolistId }
         } catch (error: any) {
-          console.log(error)
           handleServerNetworkError(error, dispatch)
           return rejectWithValue(null)
         }
