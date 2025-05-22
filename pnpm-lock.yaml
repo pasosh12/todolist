@@ -32,9 +32,6 @@ importers:
       axios:
         specifier: ^1.8.4
         version: 1.8.4
-      gh-pages:
-        specifier: ^6.3.0
-        version: 6.3.0
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -66,6 +63,9 @@ importers:
       '@vitejs/plugin-react-swc':
         specifier: 3.7.2
         version: 3.7.2(vite@6.0.6(@types/node@22.13.10))
+      gh-pages:
+        specifier: ^6.3.0
+        version: 6.3.0
       globals:
         specifier: 15.14.0
         version: 15.14.0

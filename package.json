@@ -1,6 +1,6 @@
 {
   "homepage": "https://Daniil.github.io/todolist",
-  "name": "todolist-01",
+  "name": "todolist",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,8 +8,8 @@
     "dev": "vite --port 3000",
     "test": "vitest",
     "preview": "vite preview",
-    "build": "vite build",
-    "predeploy": "npm run build",
+    "build": "tsc -b && vite build --base=./",
+    "predeploy": "pnpm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
@@ -21,7 +21,7 @@
     "@mui/material": "^6.4.5",
     "@reduxjs/toolkit": "^2.6.0",
     "axios": "^1.8.4",
-    "gh-pages": "^6.3.0",
+
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "^7.56.1",
@@ -38,6 +38,7 @@
     "prettier": "3.5.3",
     "typescript": "5.7.2",
     "vite": "6.0.6",
-    "vitest": "2.1.8"
+    "vitest": "2.1.8",
+    "gh-pages": "^6.3.0"
   }
 }
