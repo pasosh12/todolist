@@ -9,7 +9,6 @@ import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
 import { authApi, useLogoutMutation } from "@/features/auth/api/authApi.ts"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
-import { clearData } from "@/common/actions"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectTheme)
@@ -28,11 +27,11 @@ export const Header = () => {
         if (res.data?.resultCode === ResultCode.Success) {
           dispatch(setIsLoggedInAC({ isLoggedIn: false }))
           localStorage.removeItem(AUTH_TOKEN)
-          dispatch(clearData())
         }
       })
       .then(() => {
-        dispatch(authApi.util.invalidateTags(["Todolist"]))
+        // dispatch(baseApi.util.resetApiState())
+        dispatch(authApi.util.invalidateTags(["Todolist", "Tasks"]))
       })
   }
   return (
