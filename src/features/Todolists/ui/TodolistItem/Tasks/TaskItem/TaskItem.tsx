@@ -7,6 +7,7 @@ import { DomainTask } from "@/features/Todolists/api/tasksApi.types.ts"
 import { TaskStatus } from "@/common/enums"
 import { useDeleteTaskMutation, useUpdateTaskMutation } from "@/features/Todolists/api/tasksApi.ts"
 import { DomainTodolist } from "@/features/Todolists/model/todolists-Slice.ts"
+import { createTaskModel } from "@/features/Todolists/utils"
 
 type Props = {
   task: DomainTask
@@ -18,25 +19,16 @@ export const TaskItem = ({ task, todolist }: Props) => {
   const [updateTask] = useUpdateTaskMutation()
   const [deleteTask] = useDeleteTaskMutation()
   const deleteTaskHandler = () => {
-    // dispatch(deleteTaskTC({ todolistId, taskId: task.id }))
     deleteTask({ todolistId, taskId: task.id })
   }
   const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const newStatusValue = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
-    // const model = createTaskModel(task)
-    updateTask({ todolistId, taskId: task.id, model: { ...task, status: newStatusValue } })
-    // dispatch(
-    //   updateTasksDataTC({
-    //     todolistId: props.todolistId,
-    //     taskId: task.id,
-    //     domainModel: { ...task, status: newStatusValue },
-    //   }),
-    // )
+    const model = createTaskModel(task, { status: newStatusValue })
+    updateTask({ todolistId, taskId: task.id, model })
   }
   const changeTaskTitle = (newTitle: string) => {
-    console.log(task.title, newTitle)
-    updateTask({ todolistId, taskId: task.id, model: { ...task, title: newTitle } })
-    // dispatch(updateTasksDataTC({ todolistId: id, taskId: task.id, domainModel: { ...task, title: newTitle } }))
+    const model = createTaskModel(task, { title: newTitle })
+    updateTask({ todolistId, taskId: task.id, model })
   }
   const isDone = task.status === TaskStatus.Completed
   const disabled = todolist.entityStatus === "loading"
