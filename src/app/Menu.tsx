@@ -1,6 +1,6 @@
 import { Container, Grid2 } from "@mui/material"
 import { AddItemForm } from "@/common/components"
-import { Todolists } from "../features/Todolists/ui/Todolists.tsx"
+import { Todolists } from "@/features/Todolists/ui/Todolist/Todolists.tsx"
 import { useAddTodolistMutation } from "@/features/Todolists/api/todolistsApi.ts"
 
 export const Menu = () => {

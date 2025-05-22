@@ -1,5 +1,4 @@
 import { AppBar, Box, Container, IconButton, LinearProgress, Switch, Toolbar } from "@mui/material"
-import { containerSx } from "@/TodolistItem.styles.ts"
 import MenuIcon from "@mui/icons-material/Menu"
 import { NavButton } from "@/common/components"
 import { changeThemeModeAC, selectIsLoggedIn, selectStatus, selectTheme, setIsLoggedInAC } from "@/app/app-Slice.ts"
@@ -9,6 +8,7 @@ import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
 import { authApi, useLogoutMutation } from "@/features/auth/api/authApi.ts"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
+import { containerSx } from "@/common/styles"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectTheme)
@@ -34,6 +34,7 @@ export const Header = () => {
         dispatch(authApi.util.invalidateTags(["Todolist", "Tasks"]))
       })
   }
+
   return (
     <AppBar position="static">
       <Toolbar>

@@ -5,6 +5,7 @@ export const containerSx: SxProps = {
   justifyContent: "space-between",
   gap: "10px",
 }
+
 export const getListItemsSx = (isDone: Boolean): SxProps => ({
   display: "flex",
   opacity: isDone ? "0.5" : "1",

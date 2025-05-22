@@ -1,8 +1,8 @@
 import { FilterValuesType, TodolistType } from "@/app/App.tsx"
-import { containerSx } from "@/TodolistItem.styles.ts"
 import { Box, Button } from "@mui/material"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 import { todolistsApi } from "@/features/Todolists/api/todolistsApi.ts"
+import { containerSx } from "@/common/styles"
 
 type PropsType = {
   todolist: TodolistType
@@ -19,7 +19,6 @@ export const FilterButtons = ({ todolist }: PropsType) => {
           todolist.filter = value
         }
       }),
-      // changeTodolistFilterAC({ id, filter: value })
     )
   }
   return (
