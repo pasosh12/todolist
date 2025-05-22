@@ -1,13 +1,13 @@
+import { useDeleteTaskMutation, useUpdateTaskMutation } from "@/features/Todolists/api/tasksApi.ts"
+import { createTaskModel } from "@/features/Todolists/utils"
+import { TaskStatus } from "@/common/enums"
+import { DomainTask } from "@/features/Todolists/api/tasksApi.types.ts"
+import { DomainTodolist } from "@/features/Todolists/ui/Todolist/lib/types"
+import { getListItemsSx } from "@/common/styles"
 import { ChangeEvent } from "react"
 import { Checkbox, IconButton, ListItem } from "@mui/material"
-import { getListItemsSx } from "@/TodolistItem.styles.ts"
 import { EditableSpan } from "@/common/components/EditableSpan/EditableSpan.tsx"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { DomainTask } from "@/features/Todolists/api/tasksApi.types.ts"
-import { TaskStatus } from "@/common/enums"
-import { useDeleteTaskMutation, useUpdateTaskMutation } from "@/features/Todolists/api/tasksApi.ts"
-import { DomainTodolist } from "@/features/Todolists/model/todolists-Slice.ts"
-import { createTaskModel } from "@/features/Todolists/utils"
 
 type Props = {
   task: DomainTask

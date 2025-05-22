@@ -13,7 +13,8 @@ export const tasksApi = baseApi.injectEndpoints({
     createTask: build.mutation<BaseResponse<{ item: DomainTask }>, { todolistId: string; title: string }>({
       query: ({ todolistId, title }) => ({
         url: `/todo-lists/${todolistId}/tasks`,
-        body: title,
+        body: { title },
+        method: "POST",
       }),
       invalidatesTags: ["Tasks"],
     }),
@@ -28,15 +29,10 @@ export const tasksApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Tasks"],
     }),
-    deleteTask: build.mutation<
-      BaseResponse<{ item: DomainTask }>,
-      { todolistId: string; taskId: string; model: UpdateTaskModel }
-    >({
-      query: ({ todolistId, taskId, model }) => {
-        console.log(model)
+    deleteTask: build.mutation<BaseResponse<{ item: DomainTask }>, { todolistId: string; taskId: string }>({
+      query: ({ todolistId, taskId }) => {
         return {
           url: `/todo-lists/${todolistId}/tasks/${taskId}`,
-          body: model,
           method: "DELETE",
         }
       },
@@ -45,20 +41,3 @@ export const tasksApi = baseApi.injectEndpoints({
   }),
 })
 export const { useGetTasksQuery, useUpdateTaskMutation, useDeleteTaskMutation, useCreateTaskMutation } = tasksApi
-// export const _tasksApi = {
-//   getTasks(todolistId: string) {
-//     return instance.get<GetTasksResponse>(`/todo-lists/${todolistId}/tasks`)
-//   },
-//   createTask(payload: { todolistId: string; title: string }) {
-//     const { todolistId, title } = payload
-//     return instance.post<BaseResponse<{ item: DomainTask }>>(`/todo-lists/${todolistId}/tasks`, { title })
-//   },
-//   updateTask(payload: { todolistId: string; taskId: string; model: UpdateTaskModel }) {
-//     const { todolistId, taskId, model } = payload
-//     return instance.put<BaseResponse<{ item: DomainTask }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
-//   },
-//   deleteTask(payload: { todolistId: string; taskId: string }) {
-//     const { todolistId, taskId } = payload
-//     return instance.delete<BaseResponse>(`/todo-lists/${todolistId}/tasks/${taskId}`)
-//   },
-// }
